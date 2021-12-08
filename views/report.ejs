@@ -6,28 +6,58 @@
             <%- include('includes/navigation.ejs') %>
                 <div id="content-wrapper" class="d-flex flex-column">
                     <div id="content">
-                        <%- include('includes/logout.ejs') %>
+                        <%- include('includes/logout.ejs', {user: user}) %>
                             <div class="container-fluid">
                                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                                 </div>
-                                <div class="row">
-                                    <div class="">
+
+                                <div class="report-body__top">
+                                    <div class="report_title">
+                                        <h1 class="h4 mb-0 text-gray-800">Izvještaj sa službenog putovanja</h1>
                                     </div>
-                                    <div class="companyInfo"> <img id="logo"'>
-                        </div>
+
+                                    <div class="report_text">
+                                        <div>
+                                            <label>Datum odlaska: </label><input type="date" id="date_departure"
+                                                class="form-control">
+                                        </div>
+                                        <div>
+                                            <label>Datum povratka: </label><input type="date" id="date_arrival"
+                                                class="form-control">
+                                        </div>
+                                        <div>
+                                            <label>Zaposleni: </label><select id="select_employees_rp"
+                                                class="form-control">
+                                                <option>Marko Markovic</option>
+                                            </select>
+                                        </div>
+                                        <label>Vozilo: </label><select id="select_vehicle_rp" class="form-control">
+                                            <option>Ford CMAX J98-M-584</option>
+                                        </select>
+                                        </br>
+                                        </br>
+                                        <div>
+                                            <label>Izvještaj:</label>
+
+                                        </div>
+                                        <div>
+                                            <textarea class="form-control" row="5"></textarea>
+                                        </div>
+                                        <br>
+                                        <div><button type="button" class="btn btn-success">Sačuvaj</button></div>
+
+                                    </div>
+                                </div>
+                                </br>
+
+                                </br>
+                                </br>
+
+                                </br>
+                                </br>
+                            </div>
                     </div>
-                    </br>
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Kreiranje izvještaja...</h1>
-                    </div>
-                    </br>
-                    </br>
-                   
-                    </br>
-                    </br>
-                </div>
-            </div>
-            <%- include('includes/footer.ejs') %>
+                    <%- include('includes/footer.ejs') %>
     </body>
 
     </html>
