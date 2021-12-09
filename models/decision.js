@@ -24,6 +24,10 @@ const Decision = sequelize.define('decision', {
         type: Sequelize.INTEGER,
         allowNull: false
     },
+    job_title: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
     date2: {
         type: Sequelize.DATEONLY,
         allowNull: false

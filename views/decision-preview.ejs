@@ -1,0 +1,78 @@
+<%- include('includes/head.ejs') %>
+    </head>
+
+    <body id="page-top">
+        <div id="wrapper">
+            <%- include('includes/navigation.ejs') %>
+                <div id="content-wrapper" class="d-flex flex-column">
+                    <div id="content">
+                        <%- include('includes/logout.ejs', {user: user}) %>
+                            <div class="container-fluid">
+                                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                                </div>
+
+                                <form>
+                                    <div class="decision-body__top">
+                                        <div class="top-left">
+                                            <div>
+                                                <label>Int.br.: </label>
+                                                <%= int_num %>
+
+                                            </div>
+                                            <div>
+                                                <label>Dana, </label>
+                                                <%= date1 %>
+
+
+                                            </div>
+                                        </div>
+                                        <div class="top-right">
+                                        </div>
+
+                                        <div class="decision_title">
+                                            <h1 class="h4 mb-0 text-gray-800">Odluka o upućivanju na službeni put</h1>
+                                        </div>
+
+                                        <div class="decision_text">
+                                            <label>Zaposleni </label>
+                                            <%= employees_name %>
+                                                <label>upućuje se dana </label>
+                                                <%= date2 %>
+                                                    </br>
+                                                    </br>
+                                                    <div>
+                                                        <label>Razlog upućivanja na službeni put:</label>
+                                                        </br>
+                                                        <%= reasons %>
+                                                    </div>
+                                                    <div>
+
+                                                    </div>
+                                                    <br>
+
+                                                    <div>
+                                                        <label>Zaposleni će koristiti vozilo: </label>
+                                                        <%= vehicle_car + " " + vehicle_registration %>
+
+                                                    </div>
+                                                    <div>
+                                                        <label>Trošak putovanja snosi preduzeće</label>
+                                                    </div>
+                                                    </br>
+                                                    <div>
+                                                        <button type="button" onclick=""
+                                                            class="btn btn-success">Štampaj</button>
+                                                    </div>
+                                        </div>
+                                    </div>
+                                </form>
+
+                                </br>
+                                </br>
+
+                            </div>
+                    </div>
+                    <%- include('includes/footer.ejs') %>
+    </body>
+
+    </html>

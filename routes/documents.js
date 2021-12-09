@@ -5,6 +5,7 @@ const documentController = require('../controllers/documents');
 
 router.get('/', documentController.getIndex);
 router.get('/decision', documentController.getDecision);
+router.get('/decision-preview', documentController.getDecisionPreview);
 router.get('/report', documentController.getReport);
 router.post('/add-decision', documentController.postAddDecision);
 

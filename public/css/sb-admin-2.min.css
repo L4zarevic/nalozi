@@ -67,6 +67,12 @@
 	display:inline !important;
 	width:auto !important;
 }
+#job_title{
+	display:inline !important;
+	width:14%;
+	margin:0.8% 0;
+}
+
 #date2{
 	margin:0 1%;
 	display:inline !important;

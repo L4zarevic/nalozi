@@ -11,7 +11,7 @@
                                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                                 </div>
 
-                                <form action="/add-decision" method="POST">
+                                <form id="decision_form" action="/add-decision" method="POST">
                                     <div class="decision-body__top">
                                         <div class="top-left">
                                             <div>
@@ -35,7 +35,7 @@
                                         <div class="decision_text">
                                             <label>Zaposleni </label><select id="select_employees"
                                                 name="select_employees" class="form-control">
-                                                <% if (emp.length > 0) { %>
+                                                <% if (emp.length> 0) { %>
                                                     <option default value="0"></option>
                                                     <% for (let employees of emp) { %>
                                                         <option value="<%= employees.id %>">
@@ -45,7 +45,7 @@
                                                             <% } else { %>
                                                                 <option value="0"></option>
                                                                 <% } %>
-
+                                            <input type="text" id="job_title" name="job_title" class="form-control">
                                             </select><label>upućuje se dana
                                             </label><input type="date" id="date2" name="date2" class="form-control">
                                             <label>, na službeni
@@ -65,7 +65,7 @@
                                             <div>
                                                 <label>Zaposleni će koristiti vozilo: </label><select
                                                     id="select_vehicle" name="select_vehicle" class="form-control">
-                                                    <% if (veh.length > 0) { %>
+                                                    <% if (veh.length> 0) { %>
                                                         <option default value="0"></option>
                                                         <% for (let vehicle of veh) { %>
                                                             <option value="<%= vehicle.id %>">
@@ -73,8 +73,9 @@
                                                             </option>
                                                             <% } %>
                                                                 <% } else { %>
-                                                                    <option value="0"></option>
-                                                                    <% } %>
+                                                                    <option value=" 0">
+                                                            </option>
+                                                            <% } %>
                                                 </select>
                                             </div>
                                             <div>
@@ -82,7 +83,7 @@
                                             </div>
                                             </br>
                                             <div>
-                                                <button type="submit" class="btn btn-success">Sačuvaj</button>
+                                                <button type="submit" onclick="return checkFormDecision(event)" class="btn btn-success">Sačuvaj</button>
                                             </div>
                                         </div>
                                     </div>
@@ -90,7 +91,10 @@
 
                                 </br>
                                 </br>
-
+                                <% if (isSuccessful === true) { %>
+                                    <script src="js/alertify.min.js"></script>
+                                    <script type="text/javascript">alertify.success('Odluka je kreirana');</script>
+                                    <% } %>
                             </div>
                     </div>
                     <%- include('includes/footer.ejs') %>
