@@ -8,24 +8,12 @@ const Report = sequelize.define('report', {
         allowNull: false,
         primaryKey: true
     },
-    id_user: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-    },
     date_departure: {
         type: Sequelize.DATEONLY,
         allowNull: false
     },
     date_arrival: {
         type: Sequelize.DATEONLY,
-        allowNull: false
-    },
-    id_employees: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-    },
-    id_vehicle: {
-        type: Sequelize.INTEGER,
         allowNull: false
     },
     reasons: {

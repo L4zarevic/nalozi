@@ -16,10 +16,6 @@ const Decision = sequelize.define('decision', {
         type: Sequelize.DATEONLY,
         allowNull: false
     },
-    id_employees: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-    },
     job_title: {
         type: Sequelize.STRING,
         allowNull: false
@@ -36,10 +32,6 @@ const Decision = sequelize.define('decision', {
         type: Sequelize.TEXT,
         allowNull: false
     },
-    id_vehicle: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-    }
 });
 
 module.exports = Decision;

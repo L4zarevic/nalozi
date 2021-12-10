@@ -166,12 +166,12 @@ input#date1.form-control{
 #date-arrival{
 	max-width: 30%;
 }
-#select_employees_rp{
+#select-employees-rp{
 	display:inline !important;
 	width:auto !important;
 	margin:0.8% 1%;
 }
-#select_vehicle_rp{
+#select-vehicle-rp{
 	display:inline !important;
 	width:auto !important;
 }

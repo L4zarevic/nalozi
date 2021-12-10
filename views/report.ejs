@@ -10,92 +10,92 @@
                             <div class="container-fluid">
                                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                                 </div>
-
-                                <div class="report-body__top">
-                                    <div class="report_title">
-                                        <h1 class="h4 mb-0 text-gray-800">Izvještaj sa službenog putovanja</h1>
-                                    </div>
-
-                                    <div class="report_text">
-                                        <div class="date-departure-element">
-                                            <label id="date-departure-label">Datum odlaska:
-                                            </label>
-                                            <input id="date-departure" name="date-departure" maxlength='10'
-                                                placeholder="dd.mm.yyyy" class="form-control">
-                                            <script>
-                                                $('#date-departure').datepicker({
-                                                    format: 'dd.mm.yyyy',
-                                                    uiLibrary: 'bootstrap4'
-                                                });
-                                            </script>
+                                <form id="decision_form" action="/add-report" method="POST">
+                                    <div class="report-body__top">
+                                        <div class="report_title">
+                                            <h1 class="h4 mb-0 text-gray-800">Izvještaj sa službenog putovanja</h1>
                                         </div>
-                                        <div>
-                                            <div class="date-arrival-element">
-                                                <label id="date-arrival-label">Datum povratka: </label>
-                                                <input id="date-arrival" name="date-arrival" maxlength='10'
+
+                                        <div class="report_text">
+                                            <div class="date-departure-element">
+                                                <label id="date-departure-label">Datum odlaska:
+                                                </label>
+                                                <input id="date-departure" name="date_departure" maxlength='10'
                                                     placeholder="dd.mm.yyyy" class="form-control">
                                                 <script>
-                                                    $('#date-arrival').datepicker({
+                                                    $('#date-departure').datepicker({
                                                         format: 'dd.mm.yyyy',
                                                         uiLibrary: 'bootstrap4'
                                                     });
                                                 </script>
                                             </div>
-                                        </div>
-                                        <div>
-                                            <label>Zaposleni: </label>
-                                            <select id="select_employees_rp" name="select_employees_rp"
+                                            <div>
+                                                <div class="date-arrival-element">
+                                                    <label id="date-arrival-label">Datum povratka: </label>
+                                                    <input id="date-arrival" name="date_arrival" maxlength='10'
+                                                        placeholder="dd.mm.yyyy" class="form-control">
+                                                    <script>
+                                                        $('#date-arrival').datepicker({
+                                                            format: 'dd.mm.yyyy',
+                                                            uiLibrary: 'bootstrap4'
+                                                        });
+                                                    </script>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <label>Zaposleni: </label>
+                                                <select id="select-employees-rp" name="select_employees_rp"
+                                                    class="form-control">
+                                                    <% if (emp.length> 0) { %>
+                                                        <option default value="0"></option>
+                                                        <% for (let employees of emp) { %>
+                                                            <option value="<%= employees.id %>">
+                                                                <%= employees.name %>
+                                                            </option>
+                                                            <% } %>
+                                                                <% } else { %>
+                                                                    <option value="0"></option>
+                                                                    <% } %>
+                                                </select>
+                                            </div>
+                                            <label>Vozilo: </label>
+                                            <select id="select-vehicle-rp" name="select_vehicle_rp"
                                                 class="form-control">
-                                                <% if (emp.length> 0) { %>
+                                                <% if (veh.length> 0) { %>
                                                     <option default value="0"></option>
-                                                    <% for (let employees of emp) { %>
-                                                        <option value="<%= employees.id %>">
-                                                            <%= employees.name %>
-                                                        </option>
-                                                        <% } %>
-                                                            <% } else { %>
-                                                                <option value="0"></option>
-                                                                <% } %>
-                                            </select>
-                                        </div>
-                                        <label>Vozilo: </label>
-                                        <select id="select_vehicle_rp" name="select_vehicle_rp" class="form-control">
-                                            <% if (veh.length> 0) { %>
-                                                <option default value="0"></option>
-                                                <% for (let vehicle of veh) { %>
-                                                    <option value="<%= vehicle.id %>">
-                                                        <%= vehicle.car +" "+vehicle.registration %>
+                                                    <% for (let vehicle of veh) { %>
+                                                        <option value="<%= vehicle.id %>">
+                                                            <%= vehicle.car +" "+vehicle.registration %>
                                                 </option>
                                                 <% } %>
                                                     <% } else { %>
                                                         <option value=" 0">
-                                                    </option>
-                                                    <% } %>
-                                        </select>
-                                        </br>
-                                        </br>
-                                        <div>
-                                            <label>Izvještaj:</label>
+                                                        </option>
+                                                        <% } %>
+                                            </select>
+                                            </br>
+                                            </br>
+                                            <div>
+                                                <label>Izvještaj:</label>
+                                            </div>
+                                            <div>
+                                                <textarea name="reasons" id="reasons" class="form-control" row="5"></textarea>
+                                            </div>
+                                            <br>
+                                            <div>
+                                                <button type="submit" onclick="" class="btn btn-success"><i
+                                                        class="fas fa-save"></i>&nbsp;Sačuvaj</button>
+                                            </div>
 
                                         </div>
-                                        <div>
-                                            <textarea class="form-control" row="5"></textarea>
-                                        </div>
-                                        <br>
-                                        <div>
-                                            <button type="submit" onclick="" class="btn btn-success"><i
-                                                    class="fas fa-save"></i>&nbsp;Sačuvaj</button>
-                                        </div>
-
                                     </div>
-                                </div>
-                                </br>
-
+                                </form>
                                 </br>
                                 </br>
-
-                                </br>
-                                </br>
+                                <% if (isSuccessful===false) { %>
+                                    <script src="js/alertify.min.js"></script>
+                                    <script type="text/javascript">alertify.error('Greška! Pokušajte ponovo');</script>
+                                    <% } %>
                             </div>
                     </div>
                     <%- include('includes/footer.ejs') %>

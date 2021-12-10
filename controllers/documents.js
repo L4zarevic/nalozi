@@ -1,9 +1,13 @@
 const Employees = require('../models/employees');
 const Vehicle = require('../models/vehicle');
 const Decision = require('../models/decision');
+const Report = require('../models/report');
 
-var isAdd = null;
+var isAddDecision = null;
 var idDecision = null;
+var isAddReport = false;
+var idReport = null;
+
 
 const authenticate = function (req, res, next) {
     if (req.session.userid == undefined) {
@@ -33,7 +37,7 @@ exports.getDecision = (req, res, next) => {
             user: req.session.name,
             emp: employees,
             veh: vehicle,
-            isSuccessful: isAdd,
+            isSuccessful: isAddDecision,
             path: '/decision'
         })
     })
@@ -49,37 +53,37 @@ exports.getDecisionPreview = (req, res, next) => {
 
     let int_num;
     let date1;
-    let id_employees;
+    let employeeId;
     let job_title;
     let date2;
     let relations;
     let reasons;
-    let id_vehicle;
-    let employees_name = "";
-    let vehicle_car = "";
-    let vehicle_registration = "";
+    let vehicleId;
+    let employees_name;
+    let vehicle_car;
+    let vehicle_registration;
     let newdate1;
     let newdate2;
 
     Decision.findByPk(idDecision).then(decision => {
         int_num = decision.int_num;
         date1 = decision.date1;
-        id_employees = decision.id_employees;
+        employeeId = decision.employeeId;
         job_title = decision.job_title;
         date2 = decision.date2;
         relations = decision.relations;
         reasons = decision.reasons;
-        id_vehicle = decision.id_vehicle;
+        vehicleId = decision.vehicleId;
 
         newdate1 = date1.split("-").reverse().join(".");
         newdate2 = date2.split("-").reverse().join(".");
 
     }).then(() => {
-        Employees.findByPk(id_employees)
+        Employees.findByPk(employeeId)
             .then(employees => {
                 employees_name = employees.name;
 
-                Vehicle.findByPk(id_vehicle)
+                Vehicle.findByPk(vehicleId)
                     .then(vehicle => {
                         vehicle_car = vehicle.car;
                         vehicle_registration = vehicle.registration;
@@ -95,7 +99,7 @@ exports.getDecisionPreview = (req, res, next) => {
                             reasons: reasons,
                             vehicle_car: vehicle_car,
                             vehicle_registration: vehicle_registration,
-                            isSuccessful: isAdd,
+                            isSuccessful: isAddDecision,
                             path: '/decision-preview'
                         });
                     })
@@ -114,16 +118,17 @@ exports.getDecisionPreview = (req, res, next) => {
 }
 
 exports.getPrintDecision = (req, res, next) => {
+
     authenticate(req, res, next);
 
     let int_num;
     let date1;
-    let id_employees;
+    let employeeId;
     let job_title;
     let date2;
     let relations;
     let reasons;
-    let id_vehicle;
+    let vehicleId;
     let employees_name;
     let vehicle_car;
     let vehicle_registration;
@@ -133,22 +138,22 @@ exports.getPrintDecision = (req, res, next) => {
     Decision.findByPk(idDecision).then(decision => {
         int_num = decision.int_num;
         date1 = decision.date1;
-        id_employees = decision.id_employees;
+        employeeId = decision.employeeId;
         job_title = decision.job_title;
         date2 = decision.date2;
         relations = decision.relations;
         reasons = decision.reasons;
-        id_vehicle = decision.id_vehicle;
+        vehicleId = decision.vehicleId;
 
         newdate1 = date1.split("-").reverse().join(".");
         newdate2 = date2.split("-").reverse().join(".");
 
     }).then(() => {
-        Employees.findByPk(id_employees)
+        Employees.findByPk(employeeId)
             .then(employees => {
                 employees_name = employees.name;
 
-                Vehicle.findByPk(id_vehicle)
+                Vehicle.findByPk(vehicleId)
                     .then(vehicle => {
                         vehicle_car = vehicle.car;
                         vehicle_registration = vehicle.registration;
@@ -190,6 +195,7 @@ exports.getReport = (req, res, next) => {
             user: req.session.name,
             emp: employees,
             veh: vehicle,
+            isSuccessful: isAddReport,
             path: '/report'
         })
     })
@@ -197,6 +203,67 @@ exports.getReport = (req, res, next) => {
             console.log(err);
         }
         );
+}
+
+exports.getReportPreview = (req, res, next) => {
+    authenticate(req, res, next);
+
+    let date_departure;
+    let employeeId;
+    let date_arrival;
+    let reasons;
+    let vehicleId;
+    let employees_name;
+    let vehicle_car;
+    let vehicle_registration;
+    let newdate_departure;
+    let newdate_arrival;
+
+    Report.findByPk(idReport).then(report => {
+
+        date_departure = report.date_departure;
+        employeeId = report.employeeId;
+        date_arrival = report.date_arrival;
+        reasons = report.reasons;
+        vehicleId = report.vehicleId;
+
+        newdate_departure = date_departure.split("-").reverse().join(".");
+        newdate_arrival = date_arrival.split("-").reverse().join(".");
+
+    }).then(() => {
+        Employees.findByPk(employeeId)
+            .then(employees => {
+                employees_name = employees.name;
+
+                Vehicle.findByPk(vehicleId)
+                    .then(vehicle => {
+                        vehicle_car = vehicle.car;
+                        vehicle_registration = vehicle.registration;
+
+                        res.render('report-preview', {
+                            user: req.session.name,
+                            date_departure: newdate_departure,
+                            employees_name: employees_name,
+                            date_arrival: newdate_arrival,
+                            reasons: reasons,
+                            vehicle_car: vehicle_car,
+                            vehicle_registration: vehicle_registration,
+                            isSuccessful: isAddReport,
+                            path: '/report-preview'
+                        });
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            })
+            .catch(err => {
+                console.log(err);
+            });
+
+    })
+        .catch(err => {
+            console.log(err);
+        });
 }
 
 exports.postAddDecision = (req, res, next) => {
@@ -216,20 +283,50 @@ exports.postAddDecision = (req, res, next) => {
         userId: req.session.userid,
         int_num: int_num,
         date1: newdate1,
-        id_employees: select_employees,
+        employeeId: select_employees,
         date2: newdate2,
         job_title: job_title,
         relations: relations,
         reasons: reasons,
-        id_vehicle: select_vehicle
+        vehicleId: select_vehicle
     }).then((result) => {
         idDecision = result.id;
         console.log("Novi ID je: " + result.id)
-        isAdd = true;
+        isAddDecision = true;
         res.redirect('/decision-preview');
     }).catch(err => {
-        isAdd = false;
+        isAddDecision = false;
         res.redirect('/decision');
         console.log(err);
     });
+}
+
+exports.postAddReport = (req, res, next) => {
+    const date_departure = req.body.date_departure;
+    const date_arrival = req.body.date_arrival;
+    const select_employees = req.body.select_employees_rp;
+    const reasons = req.body.reasons;
+    const select_vehicle = req.body.select_vehicle_rp;
+
+    var newdate_departure = date_departure.split(".").reverse().join("-");
+    var newdate_arrival = date_arrival.split(".").reverse().join("-");
+
+    Report.create({
+        userId: req.session.userid,
+        date_departure: newdate_departure,
+        employeeId: select_employees,
+        date_arrival: newdate_arrival,
+        reasons: reasons,
+        vehicleId: select_vehicle
+    }).then((result) => {
+        idReport = result.id;
+        //console.log("Novi ID je: " + result.id)
+        isAddReport = true;
+        res.redirect('/report-preview');
+    }).catch(err => {
+        isAddReport = false;
+        res.redirect('/report');
+        console.log(err);
+    });
+
 }

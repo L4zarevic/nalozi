@@ -40,6 +40,7 @@ app.use(documentsRoutes);
 Decision.belongsTo(Users, { constraints: true, onDelete: 'CASCADE' });
 Decision.belongsTo(Employees, { constraints: true, onDelete: 'CASCADE' });
 Decision.belongsTo(Vehicle, { constraints: true, onDelete: 'CASCADE' });
+
 Report.belongsTo(Users, { constraints: true, onDelete: 'CASCADE' });
 Report.belongsTo(Employees, { constraints: true, onDelete: 'CASCADE' });
 Report.belongsTo(Vehicle, { constraints: true, onDelete: 'CASCADE' });
@@ -58,15 +59,13 @@ Users.hasMany(Vehicle);
 sequelize
     //.sync({ force: true })
     .sync()
-    .then(employees => {
+    .then(() => {
         return Employees.findAll();
         // console.log(employees);
     })
-    .then(vehicle => {
+    .then(() => {
         return Vehicle.findAll();
         // console.log(vehicle);
-    }).then(decision => {
-        //return Decision.findAll();
     })
     .catch(err => {
         console.log(err);
