@@ -7,6 +7,7 @@ const Employees = require('./models/employees');
 const Vehicle = require('./models/vehicle');
 const Users = require('./models/users');
 const Decision = require('./models/decision');
+const Report = require('./models/report');
 
 const cookieParser = require("cookie-parser");
 const session = require('express-session');
@@ -37,9 +38,22 @@ app.use(loginRoutes);
 app.use(documentsRoutes);
 
 Decision.belongsTo(Users, { constraints: true, onDelete: 'CASCADE' });
+Decision.belongsTo(Employees, { constraints: true, onDelete: 'CASCADE' });
+Decision.belongsTo(Vehicle, { constraints: true, onDelete: 'CASCADE' });
+Report.belongsTo(Users, { constraints: true, onDelete: 'CASCADE' });
+Report.belongsTo(Employees, { constraints: true, onDelete: 'CASCADE' });
+Report.belongsTo(Vehicle, { constraints: true, onDelete: 'CASCADE' });
+
 Users.hasMany(Decision);
 Employees.hasMany(Decision);
 Vehicle.hasMany(Decision);
+
+Users.hasMany(Report);
+Employees.hasMany(Report);
+Vehicle.hasMany(Report);
+
+Users.hasMany(Employees);
+Users.hasMany(Vehicle);
 
 sequelize
     //.sync({ force: true })

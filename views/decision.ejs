@@ -13,24 +13,20 @@
 
                                 <form id="decision_form" action="/add-decision" method="POST">
                                     <div class="decision-body__top">
-                                        <div class="top-left">
-                                            <div>
-                                                <label>Int.br.: </label>
-                                                <input type="text" name="int_num" id="int_num" class="form-control">
-                                            </div>
-                                            <div class="date-element">
-                                                <label id="date-label-element">Dana, </label>
-                                                <input id="date1" name="date1" maxlength='10' placeholder="dd.mm.yyyy"
-                                                    class="form-control">
-                                                <script>
-                                                    $('#date1').datepicker({
-                                                        format: 'dd.mm.yyyy',
-                                                        uiLibrary: 'bootstrap4'
-                                                    });
-                                                </script>
-                                            </div>
+                                        <div>
+                                            <label>Int.br.: </label>
+                                            <input type="text" name="int_num" id="int_num" class="form-control">
                                         </div>
-                                        <div class="top-right">
+                                        <div class="date-element">
+                                            <label id="date-label-element">Dana, </label>
+                                            <input id="date1" name="date1" maxlength='10' placeholder="dd.mm.yyyy"
+                                                class="form-control">
+                                            <script>
+                                                $('#date1').datepicker({
+                                                    format: 'dd.mm.yyyy',
+                                                    uiLibrary: 'bootstrap4'
+                                                });
+                                            </script>
                                         </div>
 
                                         <div class="decision_title">
@@ -39,8 +35,9 @@
 
                                         <div class="decision_text">
                                             <div class="decision-top">
-                                                <div class="decision_text_left"><label>Zaposleni </label><select
-                                                        id="select_employees" name="select_employees"
+                                                <div class="decision_text_left">
+                                                    <label>Zaposleni, </label>
+                                                    <select id="select_employees" name="select_employees"
                                                         class="form-control">
                                                         <% if (emp.length> 0) { %>
                                                             <option default value="0"></option>
@@ -52,9 +49,10 @@
                                                                     <% } else { %>
                                                                         <option value="0"></option>
                                                                         <% } %>
-                                                                            <input type="text" id="job_title"
-                                                                                name="job_title" class="form-control">
-                                                    </select><label>upućuje se dana
+                                                    </select>
+                                                    <input type="text" id="job_title" name="job_title"
+                                                        class="form-control">
+                                                    <label>upućuje se dana
                                                     </label>
                                                 </div>
                                                 <div class="decision_text_center">
@@ -85,8 +83,8 @@
                                             <br>
 
                                             <div>
-                                                <label>Zaposleni će koristiti vozilo: </label><select
-                                                    id="select_vehicle" name="select_vehicle" class="form-control">
+                                                <label>Zaposleni će koristiti vozilo: </label>
+                                                <select id="select_vehicle" name="select_vehicle" class="form-control">
                                                     <% if (veh.length> 0) { %>
                                                         <option default value="0"></option>
                                                         <% for (let vehicle of veh) { %>
@@ -106,7 +104,8 @@
                                             </br>
                                             <div>
                                                 <button type="submit" onclick="return checkFormDecision(event)"
-                                                    class="btn btn-success">Sačuvaj</button>
+                                                    class="btn btn-success"><i
+                                                        class="fas fa-save"></i>&nbsp;Sačuvaj</button>
                                             </div>
                                         </div>
                                     </div>

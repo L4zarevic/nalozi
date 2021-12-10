@@ -17,22 +17,60 @@
                                     </div>
 
                                     <div class="report_text">
-                                        <div>
-                                            <label>Datum odlaska: </label><input type="date" id="date_departure"
-                                                class="form-control">
+                                        <div class="date-departure-element">
+                                            <label id="date-departure-label">Datum odlaska:
+                                            </label>
+                                            <input id="date-departure" name="date-departure" maxlength='10'
+                                                placeholder="dd.mm.yyyy" class="form-control">
+                                            <script>
+                                                $('#date-departure').datepicker({
+                                                    format: 'dd.mm.yyyy',
+                                                    uiLibrary: 'bootstrap4'
+                                                });
+                                            </script>
                                         </div>
                                         <div>
-                                            <label>Datum povratka: </label><input type="date" id="date_arrival"
-                                                class="form-control">
+                                            <div class="date-arrival-element">
+                                                <label id="date-arrival-label">Datum povratka: </label>
+                                                <input id="date-arrival" name="date-arrival" maxlength='10'
+                                                    placeholder="dd.mm.yyyy" class="form-control">
+                                                <script>
+                                                    $('#date-arrival').datepicker({
+                                                        format: 'dd.mm.yyyy',
+                                                        uiLibrary: 'bootstrap4'
+                                                    });
+                                                </script>
+                                            </div>
                                         </div>
                                         <div>
-                                            <label>Zaposleni: </label><select id="select_employees_rp"
+                                            <label>Zaposleni: </label>
+                                            <select id="select_employees_rp" name="select_employees_rp"
                                                 class="form-control">
-                                                <option>Marko Markovic</option>
+                                                <% if (emp.length> 0) { %>
+                                                    <option default value="0"></option>
+                                                    <% for (let employees of emp) { %>
+                                                        <option value="<%= employees.id %>">
+                                                            <%= employees.name %>
+                                                        </option>
+                                                        <% } %>
+                                                            <% } else { %>
+                                                                <option value="0"></option>
+                                                                <% } %>
                                             </select>
                                         </div>
-                                        <label>Vozilo: </label><select id="select_vehicle_rp" class="form-control">
-                                            <option>Ford CMAX J98-M-584</option>
+                                        <label>Vozilo: </label>
+                                        <select id="select_vehicle_rp" name="select_vehicle_rp" class="form-control">
+                                            <% if (veh.length> 0) { %>
+                                                <option default value="0"></option>
+                                                <% for (let vehicle of veh) { %>
+                                                    <option value="<%= vehicle.id %>">
+                                                        <%= vehicle.car +" "+vehicle.registration %>
+                                                </option>
+                                                <% } %>
+                                                    <% } else { %>
+                                                        <option value=" 0">
+                                                    </option>
+                                                    <% } %>
                                         </select>
                                         </br>
                                         </br>
@@ -44,7 +82,10 @@
                                             <textarea class="form-control" row="5"></textarea>
                                         </div>
                                         <br>
-                                        <div><button type="button" class="btn btn-success">Sačuvaj</button></div>
+                                        <div>
+                                            <button type="submit" onclick="" class="btn btn-success"><i
+                                                    class="fas fa-save"></i>&nbsp;Sačuvaj</button>
+                                        </div>
 
                                     </div>
                                 </div>

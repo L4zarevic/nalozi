@@ -1,18 +1,22 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../util/database');
 
-const Decision = sequelize.define('decision', {
+const Report = sequelize.define('report', {
     id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         allowNull: false,
         primaryKey: true
     },
-    int_num: {
-        type: Sequelize.STRING,
+    id_user: {
+        type: Sequelize.INTEGER,
         allowNull: false
     },
-    date1: {
+    date_departure: {
+        type: Sequelize.DATEONLY,
+        allowNull: false
+    },
+    date_arrival: {
         type: Sequelize.DATEONLY,
         allowNull: false
     },
@@ -20,26 +24,14 @@ const Decision = sequelize.define('decision', {
         type: Sequelize.INTEGER,
         allowNull: false
     },
-    job_title: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-    date2: {
-        type: Sequelize.DATEONLY,
-        allowNull: false
-    },
-    relations: {
-        type: Sequelize.STRING,
+    id_vehicle: {
+        type: Sequelize.INTEGER,
         allowNull: false
     },
     reasons: {
         type: Sequelize.TEXT,
         allowNull: false
-    },
-    id_vehicle: {
-        type: Sequelize.INTEGER,
-        allowNull: false
     }
 });
 
-module.exports = Decision;
+module.exports = Report;

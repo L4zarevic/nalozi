@@ -1,0 +1,40 @@
+@page {
+    size: A4 portrait !important;
+    margin: 2.5% 3.5% !important;
+}
+
+body {
+    font-family: "Calibri";
+    font-size: 10pt;
+}
+
+img {
+    width: 21cm;
+    height: auto;
+    padding: 0;
+}
+
+.top-left {
+    margin-top: 2%;
+    margin-left: 8%;
+}
+
+.decision-title {
+    text-align: center;
+    margin: 8% 0;
+}
+
+.decision_text {
+    margin-left: 8%;
+}
+
+.decision-signature {
+    margin-top: 8%;
+    margin-right: 8%;
+    float: right;
+    text-align: center;
+}
+
+hr {
+    margin-top: 30%;
+}

@@ -182,10 +182,21 @@ exports.getPrintDecision = (req, res, next) => {
 
 exports.getReport = (req, res, next) => {
     authenticate(req, res, next);
-    res.render('report', {
-        user: req.session.name,
-        path: '/report'
-    });
+    const emp = Employees.findAll();
+    const veh = Vehicle.findAll();
+
+    Promise.all([emp, veh]).then(([employees, vehicle]) => {
+        res.render('report', {
+            user: req.session.name,
+            emp: employees,
+            veh: vehicle,
+            path: '/report'
+        })
+    })
+        .catch(err => {
+            console.log(err);
+        }
+        );
 }
 
 exports.postAddDecision = (req, res, next) => {
@@ -202,7 +213,7 @@ exports.postAddDecision = (req, res, next) => {
     var newdate2 = date2.split(".").reverse().join("-");
 
     Decision.create({
-        id_user: req.session.userid,
+        userId: req.session.userid,
         int_num: int_num,
         date1: newdate1,
         id_employees: select_employees,

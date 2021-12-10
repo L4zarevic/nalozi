@@ -2,7 +2,7 @@
 
 /*Custom css*/
 
-/*Pocetna*/
+/*Index*/
 .companyInfo {
  display:block;
  margin-left:auto;
@@ -35,6 +35,8 @@
 	display:inline-block;
 	width:31%;
 }
+
+/*Decisions*/
 .decision_text{
 	display:block;
 	width:100%;
@@ -65,7 +67,7 @@
 
 .decision_text_left{
 	float:left;
-	width:41%;
+	width:43%;
 }
 
 #int_num{
@@ -74,7 +76,6 @@
 	margin:0.8% 0;
 }
 .date-element{
-	
   display: flex;                  /* establish flex container */
   flex-direction: row;            /* default value; can be omitted */
   flex-wrap: nowrap;              /* default value; can be omitted */
@@ -84,9 +85,6 @@
 	display:inline !important;
 	width:27% !important;
 	float:left;
-}
-.gj-datepicker.gj-datepicker-bootstrap.gj-unselectable.input-group{
-
 }
 
 input#date1.form-control{
@@ -116,9 +114,7 @@ input#date1.form-control{
     float:right;
 	width:40%;
 }
-#relations_label{
-	
-}
+
 #relations{
 	margin:0 0.8%;
 	display:inline !important;
@@ -130,6 +126,8 @@ input#date1.form-control{
 	width:auto !important;
 }
 }
+
+/*Report*/
 
 .report_title{
 	margin: 4% 0;
@@ -145,14 +143,28 @@ input#date1.form-control{
   width: 500px;
   height: 150px;
 }
-#date_departure{
-	display:inline !important;
-	width:14%;
-	margin:0.8% 1%;
+.date-departure-element{
+  display:flex;
+  width:40%;
 }
-#date_arrival{
-	display:inline !important;
-	width:14%;
+
+#date-departure{
+	max-width: 32%;
+}
+#date-departure-label{
+    width: 30%;
+}
+
+.date-arrival-element{
+  margin-top:1%;
+  display:flex;
+  width:42%;
+}
+#date-arrival-label{
+    width: 30%;
+}
+#date-arrival{
+	max-width: 30%;
 }
 #select_employees_rp{
 	display:inline !important;
