@@ -36,6 +36,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(loginRoutes);
 app.use(documentsRoutes);
 
+Decision.belongsTo(Users, { constraints: true, onDelete: 'CASCADE' });
+Users.hasMany(Decision);
+Employees.hasMany(Decision);
+Vehicle.hasMany(Decision);
+
 sequelize
     //.sync({ force: true })
     .sync()
