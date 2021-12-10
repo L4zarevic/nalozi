@@ -46,62 +46,74 @@ exports.getDecision = (req, res, next) => {
 
 exports.getDecisionPreview = (req, res, next) => {
     authenticate(req, res, next);
-    let employees_name = null;
-    let vehicle_car = null;
-    let vehicle_registration = null;
 
-    let int_num = null;
-    let date1 = null;
+    let int_num;
+    let date1;
     let id_employees;
-    let job_title = null;
-    let date2 = null;
-    let relations = null;
-    let reasons = null;
-    let id_vehicle = null;
+    let job_title;
+    let date2;
+    let relations;
+    let reasons;
+    let id_vehicle;
+    let employees_name = "";
+    let vehicle_car = "";
+    let vehicle_registration = "";
+    let newdate1;
+    let newdate2;
 
-    Decision.findByPk(idDecision).then(decisions => {
-        int_num = decisions.int_num;
-        date1 = decisions.date1;
-        id_employees = decisions.id_employees;
-        job_title = decisions.job_title;
-        date2 = decisions.date2;
-        relations = decisions.relations;
-        reasons = decisions.reasons;
-        id_vehicle = decisions.id_vehicle;
+    Decision.findByPk(idDecision).then(decision => {
+        int_num = decision.int_num;
+        date1 = decision.date1;
+        id_employees = decision.id_employees;
+        job_title = decision.job_title;
+        date2 = decision.date2;
+        relations = decision.relations;
+        reasons = decision.reasons;
+        id_vehicle = decision.id_vehicle;
+
+        newdate1 = date1.split("-").reverse().join(".");
+        newdate2 = date2.split("-").reverse().join(".");
 
     }).then(() => {
         Employees.findByPk(id_employees)
             .then(employees => {
                 employees_name = employees.name;
-                console.log("OVo je 1. ispis zaposlenog" + employees_name);
-                console.log("OVo je 2. ispis zaposlenog" + employees.name);
+                // console.log("OVo je 1. ispis zaposlenog" + employees_name);
+                // console.log("OVo je 2. ispis zaposlenog" + employees.name);
+                Vehicle.findByPk(id_vehicle)
+                    .then(vehicle => {
+                        vehicle_car = vehicle.car;
+                        vehicle_registration = vehicle.registration;
+
+                        console.log("OVo je 3. ispis vozila" + vehicle.car);
+                        console.log("OVo je 4. ispis vozila" + vehicle.registration);
+
+                        console.log("OVo je 5. ispis vozila" + vehicle_car + " " + vehicle_registration);
+                        res.render('decision-preview', {
+                            user: req.session.name,
+                            int_num: int_num,
+                            date1: newdate1,
+                            employees_name: employees_name,
+                            date2: newdate2,
+                            job_title: job_title,
+                            relations: relations,
+                            reasons: reasons,
+                            vehicle_car: vehicle_car,
+                            vehicle_registration: vehicle_registration,
+                            path: '/decision-preview'
+                        });
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
             })
             .catch(err => {
                 console.log(err);
-            })
-    }).then(() => {
-        Vehicle.findByPk(id_vehicle)
-            .then(vehicle => {
-                vehicle_car = vehicle.car;
-                vehicle_registration = vehicle.registration;
-            })
-            .catch(err => {
-                console.log(err);
-            })
-    }).then(() => {
-        res.render('decision-preview', {
-            user: req.session.name,
-            int_num: int_num,
-            date1: date1,
-            employees_name: employees_name,
-            date2: date2,
-            job_title: job_title,
-            relations: relations,
-            reasons: reasons,
-            vehicle_car: vehicle_car,
-            vehicle_registration: vehicle_registration,
-            path: '/decision-preview'
-        });
+            });
+
+
+
+
     })
         .catch(err => {
             console.log(err);
@@ -126,12 +138,15 @@ exports.postAddDecision = (req, res, next) => {
     const reasons = req.body.reasons;
     const select_vehicle = req.body.select_vehicle;
 
+    var newdate1 = date1.split(".").reverse().join("-");
+    var newdate2 = date2.split(".").reverse().join("-");
+
     Decision.create({
         id_user: req.session.userid,
         int_num: int_num,
-        date1: date1,
+        date1: newdate1,
         id_employees: select_employees,
-        date2: date2,
+        date2: newdate2,
         job_title: job_title,
         relations: relations,
         reasons: reasons,

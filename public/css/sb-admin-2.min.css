@@ -35,7 +35,16 @@
 	display:inline-block;
 	width:31%;
 }
-
+.decision_text{
+	display:block;
+	width:100%;
+}
+.decision-top{
+  display: flex;                  /* establish flex container */
+  flex-direction: row;            /* default value; can be omitted */
+  flex-wrap: nowrap;              /* default value; can be omitted */
+  width:100%;
+}
 .decision_title{
 	margin: 4% 0;
 }
@@ -54,14 +63,35 @@
   height: 150px;
 }
 
+.decision_text_left{
+	float:left;
+	width:41%;
+}
+
 #int_num{
 	display:inline !important;
 	width:14%;
 	margin:0.8% 0;
 }
-#date1{
+.date-element{
+	
+  display: flex;                  /* establish flex container */
+  flex-direction: row;            /* default value; can be omitted */
+  flex-wrap: nowrap;              /* default value; can be omitted */
+  width:18%;
+}
+#date-label-element{
 	display:inline !important;
-	width:14%;
+	width:27% !important;
+	float:left;
+}
+.gj-datepicker.gj-datepicker-bootstrap.gj-unselectable.input-group{
+
+}
+
+input#date1.form-control{
+	display:inline !important;
+	width:10% !important;
 }
 #select_employees{
 	display:inline !important;
@@ -69,19 +99,31 @@
 }
 #job_title{
 	display:inline !important;
-	width:14%;
+	width:26%;
 	margin:0.8% 0;
 }
-
+.decision_text_center{
+	display:inline !important;
+	width:14%;
+	margin-right:0.8%;
+}
 #date2{
 	margin:0 1%;
-	display:inline !important;
-	width:13.8%;
+	
+}
+
+.decision_text_right{
+    float:right;
+	width:40%;
+}
+#relations_label{
+	
 }
 #relations{
-	margin:0 1%;
+	margin:0 0.8%;
 	display:inline !important;
-	width:20%;
+	width:57%;
+
 }
 #select_vehicle{
 	display:inline !important;

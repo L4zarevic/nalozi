@@ -16,7 +16,9 @@
                                         <div class="top-left">
                                             <div>
                                                 <label>Int.br.: </label>
-                                                <%= int_num %>
+                                                <label>
+                                                    <%= int_num %>
+                                                </label>
 
                                             </div>
                                             <div>
@@ -35,24 +37,36 @@
 
                                         <div class="decision_text">
                                             <label>Zaposleni </label>
-                                            <%= employees_name %>
-                                                <label>upućuje se dana </label>
+                                            <label>
+                                                <%= employees_name %>
+                                            </label>
+                                            <label>,<%= job_title %></label>
+                                            <label>upućuje se dana </label>
+                                            <label>
                                                 <%= date2 %>
-                                                    </br>
-                                                    </br>
-                                                    <div>
-                                                        <label>Razlog upućivanja na službeni put:</label>
-                                                        </br>
-                                                        <%= reasons %>
-                                                    </div>
-                                                    <div>
+                                            </label>
+                                            <label>, na službeni put na relaciji:</label>
+                                            <label>
+                                                <%= relations %>
+                                            </label>
+                                            </br>
+                                            </br>
+                                            <div>
+                                                <label>Razlog upućivanja na službeni put:</label>
+                                                </br>
+                                                <p>
+                                                    <%- reasons.replace('\n', '<br>' ) %>
+                                                </p>
+                                            </div>
+                                            <div>
 
-                                                    </div>
-                                                    <br>
+                                            </div>
+                                            <br>
 
-                                                    <div>
-                                                        <label>Zaposleni će koristiti vozilo: </label>
-                                                        <%= vehicle_car + " " + vehicle_registration %>
+                                            <div>
+                                                <label>Zaposleni će koristiti vozilo: </label>
+                                                <label>
+                                                    <%= vehicle_car +" "+vehicle_registration %></label>
 
                                                     </div>
                                                     <div>
@@ -60,9 +74,9 @@
                                                     </div>
                                                     </br>
                                                     <div>
-                                                        <button type="button" onclick=""
-                                                            class="btn btn-success">Štampaj</button>
-                                                    </div>
+                                                        <button type=" button" onclick="" class='btn btn-primary'>
+                                                            <i class='fa fa-print'></i>&nbsp;<label>Štampaj</label></button>
+                                            </div>
                                         </div>
                                     </div>
                                 </form>
