@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="robots" content="noindex">
+    <meta name="author" content="Nemanja Lazarevic">
+    <title>Moja Optika Stanković | Putni nalozi</title>
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16" />
+    <link rel="stylesheet" href="/css/print.css">
+</head>
+
+<body onload="window.print()">
+    <center><img src="/images/memorandum.png"></center>
+    <div>
+        <div class="report-title">
+
+            <h3>IZVJEŠTAJ SA SLUŽBENOG PUTA</h3>
+        </div>
+        <form>
+            <div class="report-body-top">
+
+                <div class="top-right">
+                </div>
+
+                <div class="report-text">
+                    <strong><label>Datum odlaska: </label></strong>
+                    <label>
+                        <%= date_departure %>
+                    </label></br>
+                    <strong><label>Datum povratka: </label></strong>
+                    <label>
+                        <%= date_arrival %>
+                    </label></br>
+                    <strong><label>Zaposleni: </label></strong>
+                    <label>
+                        <%= employees_name %>
+                    </label></br>
+                    <strong><label>Vozilo: </label></strong>
+                    <label>
+                        <%= vehicle_car +" "+vehicle_registration %></label></br>
+                    </br>
+                    </br>
+                    </br>
+                    <div>
+                    <strong><label>Izvještaj</label></strong>
+                        </br>
+                        <p>
+                            <%- reasons.replace(/(\r\n|\n\r|\r|\n)/g, '<br>' ) %>
+                        </p>
+                    </div>
+                    <br>
+
+                    <div class="report-signature">
+                            <strong><label id="signature-label">Potpis radnika: </label></strong>
+                            <label>
+                               _____________________________
+                            </label></br></br>
+                            <strong><label id="date-label">Datum izvještaja:</label></strong>
+                            <label>
+                                ___________________________
+                             </label></br></br>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</body>
+
+</html>

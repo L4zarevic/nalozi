@@ -14,6 +14,7 @@ img {
     padding: 0;
 }
 
+/*Decision*/
 .top-left {
     margin-top: 2%;
     margin-left: 8%;
@@ -37,4 +38,19 @@ img {
 
 hr {
     margin-top: 30%;
+}
+
+/*Report*/
+.report-title {
+    text-align: center;
+    margin: 8% 0;
+}
+.report-text {
+    margin-left: 8%;
+}
+
+.report-signature{
+	margin-top:8%;
+	display:block;
+	
 }

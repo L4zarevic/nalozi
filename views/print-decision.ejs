@@ -60,7 +60,7 @@
                         <label>Razlog upućivanja na službeni put:</label>
                         </br>
                         <p>
-                            <%- reasons.replace('\n', '<br>' ) %>
+                            <%- reasons.replace(/(\r\n|\n\r|\r|\n)/g, '<br>' ) %>
                         </p>
                     </div>
                     <br>

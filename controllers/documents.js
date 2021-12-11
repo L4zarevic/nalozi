@@ -5,7 +5,7 @@ const Report = require('../models/report');
 
 var isAddDecision = null;
 var idDecision = null;
-var isAddReport = false;
+var isAddReport = null;
 var idReport = null;
 
 
@@ -250,6 +250,66 @@ exports.getReportPreview = (req, res, next) => {
                             vehicle_registration: vehicle_registration,
                             isSuccessful: isAddReport,
                             path: '/report-preview'
+                        });
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            })
+            .catch(err => {
+                console.log(err);
+            });
+
+    })
+        .catch(err => {
+            console.log(err);
+        });
+}
+
+exports.getPrintReport = (req, res, next) => {
+    authenticate(req, res, next);
+
+    let date_departure;
+    let employeeId;
+    let date_arrival;
+    let reasons;
+    let vehicleId;
+    let employees_name;
+    let vehicle_car;
+    let vehicle_registration;
+    let newdate_departure;
+    let newdate_arrival;
+
+    Report.findByPk(idReport).then(report => {
+
+        date_departure = report.date_departure;
+        employeeId = report.employeeId;
+        date_arrival = report.date_arrival;
+        reasons = report.reasons;
+        vehicleId = report.vehicleId;
+
+        newdate_departure = date_departure.split("-").reverse().join(".");
+        newdate_arrival = date_arrival.split("-").reverse().join(".");
+
+    }).then(() => {
+        Employees.findByPk(employeeId)
+            .then(employees => {
+                employees_name = employees.name;
+
+                Vehicle.findByPk(vehicleId)
+                    .then(vehicle => {
+                        vehicle_car = vehicle.car;
+                        vehicle_registration = vehicle.registration;
+
+                        res.render('print-report', {
+                            user: req.session.name,
+                            date_departure: newdate_departure,
+                            employees_name: employees_name,
+                            date_arrival: newdate_arrival,
+                            reasons: reasons,
+                            vehicle_car: vehicle_car,
+                            vehicle_registration: vehicle_registration,
+                            path: '/print-report'
                         });
                     })
                     .catch(err => {
