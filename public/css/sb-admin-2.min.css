@@ -175,3 +175,30 @@ input#date1.form-control{
 	display:inline !important;
 	width:auto !important;
 }
+
+/*Add employees-vehicle*/
+
+.employees-info{
+	display:inline-block;
+	width:30%;
+}
+
+#add-employees{
+	width:60%;
+	margin:0 0 2% 0;
+}
+
+.vehicle-info{
+	display:inline-block;
+	width:50%;
+	float:right;
+}
+
+#add-vehicle-car{
+	width:40%;
+}
+
+#add-vehicle-registration{
+	width:40%;
+	margin: 0 0 2% 0;
+}

@@ -1,0 +1,132 @@
+<%- include('includes/head.ejs') %>
+    </head>
+
+    <body id="page-top">
+        <div id="wrapper">
+            <%- include('includes/navigation.ejs') %>
+                <div id="content-wrapper" class="d-flex flex-column">
+                    <div id="content">
+                        <%- include('includes/logout.ejs', {user: user}) %>
+                            <div class="container-fluid">
+                                <h1 class="h3 mb-4 text-gray-800">Dodaj zaposlenog / vozilo</h1>
+                                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                                </div>
+
+                                <div class="employees-info">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Ime i prezime</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <% if (emp.length> 0) {
+                                                    var rb=1;
+                                                    %>
+                                                    <% for (let employees of emp) { %>
+                                                        <td>
+                                                            <%= rb++ %>
+                                                        </td>
+                                                        <td>
+                                                            <%= employees.name %>
+                                                        </td>
+                                            </tr>
+                                            <% } %>
+                                                <% } else { %>
+                                                    <td>#</td>
+                                                    <td>Nema unesenih imena zaposlenih</td>
+                                                    </tr>
+                                                    <% } %>
+                                        </tbody>
+                                    </table>
+
+                                    <form id="employees_form" action="/add-employees" method="POST">
+                                        <div>
+                                            <label>Ime i prezime</label>
+                                            <input type="text" id="add-employees" name="add_employees"
+                                                class="form-control">
+                                        </div>
+
+                                        <div>
+                                            <button type="submit" onclick="return checkFormEmployees(event)"
+                                                class="btn btn-success"><i
+                                                    class="fas fa-save"></i>&nbsp;Sačuvaj</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="vehicle-info">
+                                    <form id="vehicle_form" action="/add-vehicle" method="POST">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Vozilo</th>
+                                                    <th scope="col">Registracija</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <% if (veh.length> 0) {
+                                                        var rb=1;
+                                                        %>
+                                                        <% for (let vehicle of veh) { %>
+                                                            <td>
+                                                                <%= rb++ %>
+                                                            </td>
+                                                            <td>
+                                                                <%= vehicle.car %>
+                                                            </td>
+                                                            <td>
+                                                                <%= vehicle.registration %>
+                                                            </td>
+                                                </tr>
+                                                <% } %>
+                                                    <% } else { %>
+                                                        <td>#</td>
+                                                        <td>Nema unesenih vozila</td>
+                                                        <td>###-#-###</td>
+                                                        </tr>
+                                                        <% } %>
+                                            </tbody>
+                                        </table>
+                                        <div>
+                                            <label>Vozilo</label>
+                                            <input type="text" id="add-vehicle-car" name="add_vehicle_car"
+                                                class="form-control">
+                                        </div>
+                                        <div>
+                                            <label>Registracija</label>
+                                            <input type="text" id="add-vehicle-registration"
+                                                name="add_vehicle_registration" class="form-control">
+                                        </div>
+                                        <div>
+                                            <button type="submit" onclick="return checkFormVehicle(event)"
+                                                class="btn btn-success"><i
+                                                    class="fas fa-save"></i>&nbsp;Sačuvaj</button>
+                                        </div>
+
+
+                                    </form>
+
+
+                                </div>
+                                </br>
+                                </br>
+                                <script src="js/alertify.min.js"></script>
+                                <% if (isSuccessfulEmp===true) { %>
+                                    <script type="text/javascript">alertify.success('Zaposleni je dodat');</script>
+                                    <% } if ((isSuccessfulEmp===false) || (isSuccessfulVeh===false)) { %>
+                                        <script
+                                            type="text/javascript">alertify.error('Greška! Pokušajte ponovo');</script>
+                                        <% } if (isSuccessfulVeh===true) { %>
+                                            <script
+                                                type="text/javascript">alertify.success('Vozilo je dodato');</script>
+                                            <% }%>
+                            </div>
+                    </div>
+                    <%- include('includes/footer.ejs') %>
+    </body>
+
+    </html>

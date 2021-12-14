@@ -38,6 +38,7 @@ exports.postLogin = (req, res, next) => {
 }
 
 exports.getLogin = (req, res, next) => {
+
     res.render('login', {
         isLogged: null,
         path: '/login'
@@ -46,6 +47,8 @@ exports.getLogin = (req, res, next) => {
 
 exports.getLogout = (req, res, next) => {
     req.session.destroy(function (err) {
+        delete req.headers;
+        console.log("SESIJA SE ZAVRSILA");
         res.redirect('/login');
     });
 }
