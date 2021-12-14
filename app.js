@@ -15,6 +15,7 @@ const session = require('express-session');
 const loginRoutes = require('./routes/login');
 const documentsRoutes = require('./routes/documents');
 const empVehRoutes = require('./routes/employees-vehicle');
+const historyRoutes = require('./routes/history');
 
 const app = express();
 
@@ -38,6 +39,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(loginRoutes);
 app.use(documentsRoutes);
 app.use(empVehRoutes);
+app.use(historyRoutes);
 
 Decision.belongsTo(Users, { constraints: true, onDelete: 'CASCADE' });
 Decision.belongsTo(Employees, { constraints: true, onDelete: 'CASCADE' });
