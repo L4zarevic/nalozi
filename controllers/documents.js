@@ -65,6 +65,10 @@ exports.getDecisionPreview = (req, res, next) => {
     let newdate1;
     let newdate2;
 
+    if (req.params.decId != undefined) {
+        idDecision = req.params.decId;
+    }
+
     Decision.findByPk(idDecision).then(decision => {
         int_num = decision.int_num;
         date1 = decision.date1;

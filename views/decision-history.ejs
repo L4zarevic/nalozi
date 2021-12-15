@@ -37,26 +37,30 @@
                                                             <% rb=(page-1)*10; %>
                                                                 <% } %>
                                                                     <% for (let decision of dec) { %>
-                                                                        <tr>
-                                                                            <td>
-                                                                                <%= rb +=1; %>
-                                                                            </td>
-                                                                            <td>
-                                                                                <%= decision.int_num %>
-                                                                            </td>
-                                                                            <td>
-                                                                                <%= decision.date1 %>
-                                                                            </td>
-                                                                            <td>
-                                                                                <%= decision.employee.name %>
-                                                                            </td>
-                                                                            <td>
-                                                                                <%= decision.vehicle.car %>
-                                                                            </td>
-                                                                            <td>
-                                                                                <%= decision.user.name %>
-                                                                            </td>
+
+                                                                        <tr
+                                                                            onclick="window.location='/decision-preview/<%= decision.id %>';">
+                                                                        
+                                                                        <td>
+                                                                            <%= rb +=1; %>
+                                                                        </td>
+                                                                        <td>
+                                                                            <%= decision.int_num %>
+                                                                        </td>
+                                                                        <td>
+                                                                            <%= decision.date1 %>
+                                                                        </td>
+                                                                        <td>
+                                                                            <%= decision.employee.name %>
+                                                                        </td>
+                                                                        <td>
+                                                                            <%= decision.vehicle.car %>
+                                                                        </td>
+                                                                        <td>
+                                                                            <%= decision.user.name %>
+                                                                        </td>
                                                                         </tr>
+
                                                                         <% } %>
 
 

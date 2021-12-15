@@ -202,3 +202,10 @@ input#date1.form-control{
 	width:40%;
 	margin: 0 0 2% 0;
 }
+
+/*History*/
+
+tr:hover{
+  cursor: pointer;
+  background-color: #ccc;
+}
