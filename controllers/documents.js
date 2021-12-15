@@ -11,20 +11,18 @@ var idReport = null;
 
 const authenticate = function (req, res, next) {
     if (req.session.userid == undefined) {
-        res.redirect('/login');
+        res.redirect('/logout');
     }
 }
 
 exports.getIndex = (req, res, next) => {
-    //  if (req.session.userid == undefined) {
-    //     res.redirect('/login');
-    // } else {
     authenticate(req, res, next);
+    
     res.render('index', {
         user: req.session.name,
         path: '/'
     });
-    // }
+    
 }
 
 exports.getDecision = (req, res, next) => {
@@ -51,70 +49,30 @@ exports.getDecision = (req, res, next) => {
 exports.getDecisionPreview = (req, res, next) => {
     authenticate(req, res, next);
 
-    let int_num;
-    let date1;
-    let employeeId;
-    let job_title;
-    let date2;
-    let relations;
-    let reasons;
-    let vehicleId;
-    let employees_name;
-    let vehicle_car;
-    let vehicle_registration;
-    let newdate1;
-    let newdate2;
-
     if (req.params.decId != undefined) {
         idDecision = req.params.decId;
     }
 
-    Decision.findByPk(idDecision).then(decision => {
-        int_num = decision.int_num;
-        date1 = decision.date1;
-        employeeId = decision.employeeId;
-        job_title = decision.job_title;
-        date2 = decision.date2;
-        relations = decision.relations;
-        reasons = decision.reasons;
-        vehicleId = decision.vehicleId;
+    Decision.findOne({
+        where: { id: idDecision },
+        include: [{
+            model: Employees,
+            required: true
+        },
+        {
+            model: Vehicle,
+            required: true
+        }],
+        attributes: ['int_num', 'date1', 'employee.name', 'job_title', 'date2', 'relations', 'reasons', 'vehicle.car', 'vehicle.registration']
 
-        newdate1 = date1.split("-").reverse().join(".");
-        newdate2 = date2.split("-").reverse().join(".");
-
-    }).then(() => {
-        Employees.findByPk(employeeId)
-            .then(employees => {
-                employees_name = employees.name;
-
-                Vehicle.findByPk(vehicleId)
-                    .then(vehicle => {
-                        vehicle_car = vehicle.car;
-                        vehicle_registration = vehicle.registration;
-
-                        res.render('decision-preview', {
-                            user: req.session.name,
-                            int_num: int_num,
-                            date1: newdate1,
-                            employees_name: employees_name,
-                            date2: newdate2,
-                            job_title: job_title,
-                            relations: relations,
-                            reasons: reasons,
-                            vehicle_car: vehicle_car,
-                            vehicle_registration: vehicle_registration,
-                            isSuccessful: isAddDecision,
-                            path: '/decision-preview'
-                        });
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    });
-            })
-            .catch(err => {
-                console.log(err);
-            });
-
+    }).then((decision) => {
+        res.render('decision-preview', {
+            user: req.session.name,
+            dec: decision,
+            isSuccessful: isAddDecision,
+            path: '/decision-preview'
+        });
+        isAddDecision = null;
     })
         .catch(err => {
             console.log(err);
@@ -125,64 +83,24 @@ exports.getPrintDecision = (req, res, next) => {
 
     authenticate(req, res, next);
 
-    let int_num;
-    let date1;
-    let employeeId;
-    let job_title;
-    let date2;
-    let relations;
-    let reasons;
-    let vehicleId;
-    let employees_name;
-    let vehicle_car;
-    let vehicle_registration;
-    let newdate1;
-    let newdate2;
+    Decision.findOne({
+        where: { id: idDecision },
+        include: [{
+            model: Employees,
+            required: true
+        },
+        {
+            model: Vehicle,
+            required: true
+        }],
+        attributes: ['int_num', 'date1', 'employee.name', 'job_title', 'date2', 'relations', 'reasons', 'vehicle.car', 'vehicle.registration']
 
-    Decision.findByPk(idDecision).then(decision => {
-        int_num = decision.int_num;
-        date1 = decision.date1;
-        employeeId = decision.employeeId;
-        job_title = decision.job_title;
-        date2 = decision.date2;
-        relations = decision.relations;
-        reasons = decision.reasons;
-        vehicleId = decision.vehicleId;
-
-        newdate1 = date1.split("-").reverse().join(".");
-        newdate2 = date2.split("-").reverse().join(".");
-
-    }).then(() => {
-        Employees.findByPk(employeeId)
-            .then(employees => {
-                employees_name = employees.name;
-
-                Vehicle.findByPk(vehicleId)
-                    .then(vehicle => {
-                        vehicle_car = vehicle.car;
-                        vehicle_registration = vehicle.registration;
-
-                        res.render('print-decision', {
-                            int_num: int_num,
-                            date1: newdate1,
-                            employees_name: employees_name,
-                            date2: newdate2,
-                            job_title: job_title,
-                            relations: relations,
-                            reasons: reasons,
-                            vehicle_car: vehicle_car,
-                            vehicle_registration: vehicle_registration,
-                            path: '/print-decision'
-                        });
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    });
-            })
-            .catch(err => {
-                console.log(err);
-            });
-
+    }).then((decision) => {
+        res.render('print-decision', {
+            user: req.session.name,
+            dec: decision,
+            path: '/print-decision'
+        });
     })
         .catch(err => {
             console.log(err);
@@ -212,118 +130,57 @@ exports.getReport = (req, res, next) => {
 exports.getReportPreview = (req, res, next) => {
     authenticate(req, res, next);
 
-    let date_departure;
-    let employeeId;
-    let date_arrival;
-    let reasons;
-    let vehicleId;
-    let employees_name;
-    let vehicle_car;
-    let vehicle_registration;
-    let newdate_departure;
-    let newdate_arrival;
+    if (req.params.repId != undefined) {
+        idReport = req.params.repId;
+    }
 
-    Report.findByPk(idReport).then(report => {
+    Report.findOne({
+        where: { id: idReport },
+        include: [{
+            model: Employees,
+            required: true
+        },
+        {
+            model: Vehicle,
+            required: true
+        }],
+        attributes: ['date_departure', 'date_arrival', 'employee.name', 'reasons', 'vehicle.car', 'vehicle.registration']
 
-        date_departure = report.date_departure;
-        employeeId = report.employeeId;
-        date_arrival = report.date_arrival;
-        reasons = report.reasons;
-        vehicleId = report.vehicleId;
-
-        newdate_departure = date_departure.split("-").reverse().join(".");
-        newdate_arrival = date_arrival.split("-").reverse().join(".");
-
-    }).then(() => {
-        Employees.findByPk(employeeId)
-            .then(employees => {
-                employees_name = employees.name;
-
-                Vehicle.findByPk(vehicleId)
-                    .then(vehicle => {
-                        vehicle_car = vehicle.car;
-                        vehicle_registration = vehicle.registration;
-
-                        res.render('report-preview', {
-                            user: req.session.name,
-                            date_departure: newdate_departure,
-                            employees_name: employees_name,
-                            date_arrival: newdate_arrival,
-                            reasons: reasons,
-                            vehicle_car: vehicle_car,
-                            vehicle_registration: vehicle_registration,
-                            isSuccessful: isAddReport,
-                            path: '/report-preview'
-                        });
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    });
-            })
-            .catch(err => {
-                console.log(err);
-            });
-
+    }).then((report) => {
+        res.render('report-preview', {
+            user: req.session.name,
+            rep: report,
+            isSuccessful: isAddReport,
+            path: '/report-preview'
+        });
     })
         .catch(err => {
             console.log(err);
         });
+
 }
 
 exports.getPrintReport = (req, res, next) => {
     authenticate(req, res, next);
 
-    let date_departure;
-    let employeeId;
-    let date_arrival;
-    let reasons;
-    let vehicleId;
-    let employees_name;
-    let vehicle_car;
-    let vehicle_registration;
-    let newdate_departure;
-    let newdate_arrival;
+    Report.findOne({
+        where: { id: idReport },
+        include: [{
+            model: Employees,
+            required: true
+        },
+        {
+            model: Vehicle,
+            required: true
+        }],
+        attributes: ['date_departure', 'date_arrival', 'employee.name', 'reasons', 'vehicle.car', 'vehicle.registration']
 
-    Report.findByPk(idReport).then(report => {
-
-        date_departure = report.date_departure;
-        employeeId = report.employeeId;
-        date_arrival = report.date_arrival;
-        reasons = report.reasons;
-        vehicleId = report.vehicleId;
-
-        newdate_departure = date_departure.split("-").reverse().join(".");
-        newdate_arrival = date_arrival.split("-").reverse().join(".");
-
-    }).then(() => {
-        Employees.findByPk(employeeId)
-            .then(employees => {
-                employees_name = employees.name;
-
-                Vehicle.findByPk(vehicleId)
-                    .then(vehicle => {
-                        vehicle_car = vehicle.car;
-                        vehicle_registration = vehicle.registration;
-
-                        res.render('print-report', {
-                            user: req.session.name,
-                            date_departure: newdate_departure,
-                            employees_name: employees_name,
-                            date_arrival: newdate_arrival,
-                            reasons: reasons,
-                            vehicle_car: vehicle_car,
-                            vehicle_registration: vehicle_registration,
-                            path: '/print-report'
-                        });
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    });
-            })
-            .catch(err => {
-                console.log(err);
-            });
-
+    }).then((report) => {
+        res.render('print-report', {
+            user: req.session.name,
+            rep: report,
+            path: '/print-report'
+        });
     })
         .catch(err => {
             console.log(err);

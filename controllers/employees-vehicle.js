@@ -1,10 +1,13 @@
 const Employees = require('../models/employees');
 const Vehicle = require('../models/vehicle');
+const allowed_access = require('../util/allowed-access');
 
 var isAddEmployees = null;
 var isAddVehicle = null;
 
 exports.getEmployeesVehicle = (req, res, next) => {
+    allowed_access(req, res, next);
+
     const emp = Employees.findAll();
     const veh = Vehicle.findAll();
 
@@ -27,6 +30,8 @@ exports.getEmployeesVehicle = (req, res, next) => {
 }
 
 exports.postAddEmployees = (req, res, next) => {
+    allowed_access(req, res, next);
+
     const employeesName = req.body.add_employees;
 
     Employees.create({
@@ -45,6 +50,8 @@ exports.postAddEmployees = (req, res, next) => {
 }
 
 exports.postAddVehicle = (req, res, next) => {
+    allowed_access(req, res, next);
+    
     const vehicleCar = req.body.add_vehicle_car;
     const vehicleRegistration = req.body.add_vehicle_registration;
 

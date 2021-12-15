@@ -15,31 +15,32 @@
                                         <div class="report_title">
                                             <h1 class="h4 mb-0 text-gray-800">Izvještaj sa službenog putovanja</h1>
                                         </div>
+                                        </br>
 
                                         <div class="report_text">
                                             <div>
                                                 <label>Datum odlaska: </label>
                                                 <label>
-                                                    <%= date_departure %>
+                                                    <%= rep.date_departure.split("-").reverse().join(".") %>
                                                 </label>
                                             </div>
                                             <div>
                                                 <div>
                                                     <label>Datum povratka: </label>
                                                     <label>
-                                                        <%= date_arrival %>
+                                                        <%= rep.date_arrival.split("-").reverse().join(".") %>
                                                     </label>
                                                 </div>
                                             </div>
                                             <div>
                                                 <label>Zaposleni: </label>
                                                 <label>
-                                                    <%= employees_name %>
+                                                    <%= rep.employee.name %>
                                                 </label>
                                             </div>
                                             <label>Vozilo: </label>
                                             <label>
-                                                <%= vehicle_car + " " + vehicle_registration%>
+                                                <%= rep.vehicle.car + " " + rep.vehicle.registration%>
                                             </label>
                                             </br>
                                             </br>
@@ -47,7 +48,7 @@
                                                 <label>Izvještaj:</label>
                                                 </br>
                                                 <p>
-                                                    <%- reasons.replace(/(\r\n|\n\r|\r|\n)/g, '<br>' ) %>
+                                                    <%- rep.reasons.replace(/(\r\n|\n\r|\r|\n)/g, '<br>' ) %>
                                                 </p>
                                             </div>
 
@@ -71,4 +72,5 @@
                     </div>
                     <%- include('includes/footer.ejs') %>
     </body>
+
     </html>

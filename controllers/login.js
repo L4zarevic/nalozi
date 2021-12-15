@@ -50,6 +50,7 @@ exports.getLogout = (req, res, next) => {
         delete req.headers;
         console.log("SESIJA SE ZAVRSILA");
         res.redirect('/login');
+        return res.status(403).send();
     });
 }
 

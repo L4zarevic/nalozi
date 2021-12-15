@@ -10,6 +10,7 @@ router.get('/decision-preview/:decId', documentController.getDecisionPreview);
 router.get('/print-decision',documentController.getPrintDecision);
 router.get('/report', documentController.getReport);
 router.get('/report-preview', documentController.getReportPreview);
+router.get('/report-preview/:repId', documentController.getReportPreview);
 router.get('/print-report',documentController.getPrintReport);
 router.post('/add-decision', documentController.postAddDecision);
 router.post('/add-report', documentController.postAddReport);

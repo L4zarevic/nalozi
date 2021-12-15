@@ -30,19 +30,19 @@
                 <div class="report-text">
                     <strong><label>Datum odlaska: </label></strong>
                     <label>
-                        <%= date_departure %>
+                        <%= rep.date_departure.split("-").reverse().join(".") %>
                     </label></br>
                     <strong><label>Datum povratka: </label></strong>
                     <label>
-                        <%= date_arrival %>
+                        <%= rep.date_arrival.split("-").reverse().join(".") %>
                     </label></br>
                     <strong><label>Zaposleni: </label></strong>
                     <label>
-                        <%= employees_name %>
+                        <%= rep.employee.name %>
                     </label></br>
                     <strong><label>Vozilo: </label></strong>
                     <label>
-                        <%= vehicle_car +" "+vehicle_registration %></label></br>
+                        <%= rep.vehicle.car +" "+rep.vehicle.registration %></label></br>
                     </br>
                     </br>
                     </br>
@@ -50,20 +50,20 @@
                     <strong><label>Izvještaj</label></strong>
                         </br>
                         <p>
-                            <%- reasons.replace(/(\r\n|\n\r|\r|\n)/g, '<br>' ) %>
+                            <%- rep.reasons.replace(/(\r\n|\n\r|\r|\n)/g, '<br>' ) %>
                         </p>
                     </div>
                     <br>
 
-                    <div class="report-signature">
+                    <div class=" report-signature">
                             <strong><label id="signature-label">Potpis radnika: </label></strong>
                             <label>
-                               _____________________________
+                                _____________________________
                             </label></br></br>
                             <strong><label id="date-label">Datum izvještaja:</label></strong>
                             <label>
                                 ___________________________
-                             </label></br></br>
+                            </label></br></br>
                 </div>
             </div>
         </form>

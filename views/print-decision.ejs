@@ -21,12 +21,12 @@
             <div>
                 <label>Int.br.: </label>
                 <label>
-                    <%= int_num %>
+                    <%= dec.int_num %>
                 </label>
             </div>
             <div>
                 <label>Dana, </label>
-                <%= date1 %>
+                <%= dec.date1.split("-").reverse().join(".") %>
             </div>
         </div>
         <div class="decision-title">
@@ -43,16 +43,16 @@
                 <div class="decision_text">
                     <label>Zaposleni, </label>
                     <label>
-                        <%= employees_name %>
+                        <%= dec.employee.name %>
                     </label>
-                    <label>,<%= job_title %></label>
+                    <label>,<%= dec.job_title %></label>
                     <label>upućuje se dana </label>
                     <label>
-                        <%= date2 %>
+                        <%= dec.date2.split("-").reverse().join(".") %>
                     </label>
                     <label>, na službeni put na relaciji:</label>
                     <label>
-                        <%= relations %>
+                        <%= dec.relations %>
                     </label>
                     </br>
                     </br>
@@ -60,7 +60,7 @@
                         <label>Razlog upućivanja na službeni put:</label>
                         </br>
                         <p>
-                            <%- reasons.replace(/(\r\n|\n\r|\r|\n)/g, '<br>' ) %>
+                            <%- dec.reasons.replace(/(\r\n|\n\r|\r|\n)/g, '<br>' ) %>
                         </p>
                     </div>
                     <br>
@@ -68,7 +68,7 @@
                     <div>
                         <label>Zaposleni će koristiti vozilo: </label>
                         <label>
-                            <%= vehicle_car +" "+vehicle_registration %></label>
+                            <%= dec.vehicle.car +" "+dec.vehicle.registration %></label>
 
                                     </div>
                                     <div>

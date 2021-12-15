@@ -3,6 +3,7 @@ const path = require('path');
 
 const bodyParser = require('body-parser');
 const sequelize = require('./util/database');
+const allowed_access = require('./util/allowed-access');
 const Employees = require('./models/employees');
 const Vehicle = require('./models/vehicle');
 const Users = require('./models/users');
@@ -64,15 +65,8 @@ sequelize
     //.sync({ force: true })
     .sync()
     .then(() => {
-        return Employees.findAll();
-        // console.log(employees);
-    })
-    .then(() => {
-        return Vehicle.findAll();
-        // console.log(vehicle);
+        app.listen(3000);
     })
     .catch(err => {
         console.log(err);
     });
-
-app.listen(3000);

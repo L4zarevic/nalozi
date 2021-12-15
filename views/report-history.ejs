@@ -1,0 +1,88 @@
+<%- include('includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/pagination.css" />
+    </head>
+
+    <body id="page-top">
+        <div id="wrapper">
+            <%- include('includes/navigation.ejs') %>
+                <div id="content-wrapper" class="d-flex flex-column">
+                    <div id="content">
+                        <%- include('includes/logout.ejs', {user: user}) %>
+                            <div class="container-fluid">
+                                <h1 class="h3 mb-4 text-gray-800"></h1>
+                                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                                </div>
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">Istorijat izvještaja <i
+                                                class="fa fa-folder-open"></i></h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-hover" id="dataTable"
+                                                data-toggle="table" width="100%" cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Datum odlaska</th>
+                                                        <th>Datum dolaska</th>
+                                                        <th>Zaposleni</th>
+                                                        <th>Vozilo</th>
+                                                        <th>Kreirao</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <% var rb=0; %>
+                                                        <% if (page> 1 ) { %>
+                                                            <% rb=(page-1)*10; %>
+                                                                <% } %>
+                                                                    <% for (let report of rep) { %>
+
+                                                                        <tr
+                                                                            onclick="window.location='/report-preview/<%= report.id %>';">
+                                                                        
+                                                                        <td>
+                                                                            <%= rb +=1; %>
+                                                                        </td>
+                                                                        <td>
+                                                                            <%= report.date_departure.split("-").reverse().join(".") %>
+                                                                        </td>
+                                                                        <td>
+                                                                            <%= report.date_arrival.split("-").reverse().join(".") %>
+                                                                        </td>
+                                                                        <td>
+                                                                            <%= report.employee.name %>
+                                                                        </td>
+                                                                        <td>
+                                                                            <%= report.vehicle.car %>
+                                                                        </td>
+                                                                        <td>
+                                                                            <%= report.user.name %>
+                                                                        </td>
+                                                                        </tr>
+
+                                                                        <% } %>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-4">
+                                                <div style='padding: 10px 10px 0px; border-top: dotted 1px #CCC;'>
+                                                    <strong>Stranica <%=page %> od <%= pages %>
+                                                    </strong>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <%- include('includes/pagination.ejs', {path: path}) %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </br>
+                                </br>
+                            </div>
+                    </div>
+                    <%- include('includes/footer.ejs') %>
+    </body>
+
+    </html>
