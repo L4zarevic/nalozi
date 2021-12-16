@@ -47,7 +47,7 @@ exports.getIndex = (req, res, next) => {
             countReportMonth: countReportMonth,
             countAllDecision: countAllDecision,
             countAllReport: countAllReport,
-            path: '/'
+            path: '/nalozi/'
         });
     });
 
@@ -243,12 +243,12 @@ exports.postAddDecision = (req, res, next) => {
         vehicleId: select_vehicle
     }).then((result) => {
         idDecision = result.id;
-       // console.log("Novi ID je: " + result.id)
+        // console.log("Novi ID je: " + result.id)
         isAddDecision = true;
-        res.redirect('/decision-preview');
+        res.redirect('/nalozi/decision-preview');
     }).catch(err => {
         isAddDecision = false;
-        res.redirect('/decision');
+        res.redirect('/nalozi/decision');
         console.log(err);
     });
 }
@@ -276,10 +276,10 @@ exports.postAddReport = (req, res, next) => {
         idReport = result.id;
         //console.log("Novi ID je: " + result.id)
         isAddReport = true;
-        res.redirect('/report-preview');
+        res.redirect('/nalozi/report-preview');
     }).catch(err => {
         isAddReport = false;
-        res.redirect('/report');
+        res.redirect('/nalozi/report');
         console.log(err);
     });
 

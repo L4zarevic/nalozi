@@ -42,7 +42,7 @@
                                         </tbody>
                                     </table>
 
-                                    <form id="employees_form" action="/add-employees" method="POST">
+                                    <form id="employees_form" action="/nalozi/add-employees" method="POST">
                                         <div>
                                             <label>Ime i prezime</label>
                                             <input type="text" id="add-employees" name="add_employees"
@@ -57,7 +57,7 @@
                                     </form>
                                 </div>
                                 <div class="vehicle-info">
-                                    <form id="vehicle_form" action="/add-vehicle" method="POST">
+                                    <form id="vehicle_form" action="/nalozi/add-vehicle" method="POST">
                                         <table class="table table-hover">
                                             <thead>
                                                 <tr>
@@ -114,7 +114,7 @@
                                 </div>
                                 </br>
                                 </br>
-                                <script src="js/alertify.min.js"></script>
+                                <script src="/nalozi/js/alertify.min.js"></script>
                                 <% if (isSuccessfulEmp===true) { %>
                                     <script type="text/javascript">alertify.success('Zaposleni je dodat');</script>
                                     <% } if ((isSuccessfulEmp===false) || (isSuccessfulVeh===false)) { %>

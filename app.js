@@ -1,9 +1,7 @@
 const express = require("express");
-const path = require('path');
 
 const bodyParser = require('body-parser');
 const sequelize = require('./util/database');
-const allowed_access = require('./util/allowed-access');
 const Employees = require('./models/employees');
 const Vehicle = require('./models/vehicle');
 const Users = require('./models/users');
@@ -35,12 +33,12 @@ app.use(session({
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/nalozi', express.static(__dirname + "/public"));
 
-app.use(loginRoutes);
-app.use(documentsRoutes);
-app.use(empVehRoutes);
-app.use(historyRoutes);
+app.use('/nalozi', loginRoutes);
+app.use('/nalozi', documentsRoutes);
+app.use('/nalozi', empVehRoutes);
+app.use('/nalozi', historyRoutes);
 
 Decision.belongsTo(Users, { constraints: true, onDelete: 'CASCADE' });
 Decision.belongsTo(Employees, { constraints: true, onDelete: 'CASCADE' });
@@ -65,7 +63,7 @@ sequelize
     //.sync({ force: true })
     .sync()
     .then(() => {
-        app.listen(3000);
+        app.listen(8080);
     })
     .catch(err => {
         console.log(err);

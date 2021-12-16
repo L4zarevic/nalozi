@@ -41,10 +41,10 @@ exports.postAddEmployees = (req, res, next) => {
         //idReport = result.id;
         //console.log("Novi ID je: " + result.id)
         isAddEmployees = true;
-        res.redirect('/add-employees-vehicle');
+        res.redirect('/nalozi/add-employees-vehicle');
     }).catch(err => {
         isAddEmployees = false;
-        res.redirect('/add-employees-vehicle');
+        res.redirect('/nalozi/add-employees-vehicle');
         console.log(err);
     });
 }
@@ -63,10 +63,10 @@ exports.postAddVehicle = (req, res, next) => {
         //idReport = result.id;
         //console.log("Novi ID je: " + result.id)
         isAddVehicle = true;
-        res.redirect('/add-employees-vehicle');
+        res.redirect('/nalozi/add-employees-vehicle');
     }).catch(err => {
         isAddVehicle = false;
-        res.redirect('/add-employees-vehicle');
+        res.redirect('/nalozi/add-employees-vehicle');
         console.log(err);
     });
 }

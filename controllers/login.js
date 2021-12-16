@@ -17,7 +17,7 @@ exports.postLogin = (req, res, next) => {
             req.session.name = users[0].name;
             req.session.save(function (err) {
                 // session saved
-                res.redirect('/');
+                res.redirect('/nalozi/');
                 return res.status(200).send();
             });
             //  res.redirect('/');
@@ -38,7 +38,6 @@ exports.postLogin = (req, res, next) => {
 }
 
 exports.getLogin = (req, res, next) => {
-
     res.render('login', {
         isLogged: null,
         path: '/login'
@@ -49,7 +48,7 @@ exports.getLogout = (req, res, next) => {
     req.session.destroy(function (err) {
         delete req.headers;
         console.log("SESIJA SE ZAVRSILA");
-        res.redirect('/login');
+        res.redirect('/nalozi/login');
         return res.status(403).send();
     });
 }
