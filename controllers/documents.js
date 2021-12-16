@@ -2,6 +2,8 @@ const Employees = require('../models/employees');
 const Vehicle = require('../models/vehicle');
 const Decision = require('../models/decision');
 const Report = require('../models/report');
+const allowed_access = require('../util/allowed-access');
+const { Op } = require('sequelize');
 
 var isAddDecision = null;
 var idDecision = null;
@@ -9,24 +11,53 @@ var isAddReport = null;
 var idReport = null;
 
 
-const authenticate = function (req, res, next) {
-    if (req.session.userid == undefined) {
-        res.redirect('/logout');
-    }
-}
 
 exports.getIndex = (req, res, next) => {
-    authenticate(req, res, next);
-    
-    res.render('index', {
-        user: req.session.name,
-        path: '/'
+    allowed_access(req, res, next);
+
+    let date_ob = new Date();
+    let day = date_ob.getDate();
+    let month = date_ob.getMonth() + 1;
+    let year = date_ob.getFullYear();
+
+    let currentDate = year + "-" + month + "-" + day;
+    let startDate = year + "-" + month + "-01";
+
+    let countDecisionMonth = Decision.count({
+        where: {
+            date1: {
+                [Op.between]: [startDate, currentDate]
+            }
+        }
     });
-    
+
+    let countReportMonth = Report.count({
+        where: {
+            date_departure: {
+                [Op.between]: [startDate, currentDate]
+            }
+        }
+    });
+
+    let countAllDecision = Decision.count();
+    let countAllReport = Report.count();
+
+    Promise.all([countDecisionMonth, countReportMonth, countAllDecision, countAllReport]).then(([countDecisionMonth, countReportMonth, countAllDecision, countAllReport]) => {
+        res.render('index', {
+            user: req.session.name,
+            countDecisionMonth: countDecisionMonth,
+            countReportMonth: countReportMonth,
+            countAllDecision: countAllDecision,
+            countAllReport: countAllReport,
+            path: '/'
+        });
+    });
+
 }
 
 exports.getDecision = (req, res, next) => {
-    authenticate(req, res, next);
+    allowed_access(req, res, next);
+
     const emp = Employees.findAll();
     const veh = Vehicle.findAll();
 
@@ -47,7 +78,7 @@ exports.getDecision = (req, res, next) => {
 
 
 exports.getDecisionPreview = (req, res, next) => {
-    authenticate(req, res, next);
+    allowed_access(req, res, next);
 
     if (req.params.decId != undefined) {
         idDecision = req.params.decId;
@@ -80,8 +111,7 @@ exports.getDecisionPreview = (req, res, next) => {
 }
 
 exports.getPrintDecision = (req, res, next) => {
-
-    authenticate(req, res, next);
+    allowed_access(req, res, next);
 
     Decision.findOne({
         where: { id: idDecision },
@@ -108,7 +138,8 @@ exports.getPrintDecision = (req, res, next) => {
 }
 
 exports.getReport = (req, res, next) => {
-    authenticate(req, res, next);
+    allowed_access(req, res, next);
+
     const emp = Employees.findAll();
     const veh = Vehicle.findAll();
 
@@ -128,7 +159,7 @@ exports.getReport = (req, res, next) => {
 }
 
 exports.getReportPreview = (req, res, next) => {
-    authenticate(req, res, next);
+    allowed_access(req, res, next);
 
     if (req.params.repId != undefined) {
         idReport = req.params.repId;
@@ -161,7 +192,7 @@ exports.getReportPreview = (req, res, next) => {
 }
 
 exports.getPrintReport = (req, res, next) => {
-    authenticate(req, res, next);
+    allowed_access(req, res, next);
 
     Report.findOne({
         where: { id: idReport },
@@ -188,6 +219,8 @@ exports.getPrintReport = (req, res, next) => {
 }
 
 exports.postAddDecision = (req, res, next) => {
+    allowed_access(req, res, next);
+
     const int_num = req.body.int_num;
     const date1 = req.body.date1;
     const select_employees = req.body.select_employees;
@@ -223,6 +256,8 @@ exports.postAddDecision = (req, res, next) => {
 }
 
 exports.postAddReport = (req, res, next) => {
+    allowed_access(req, res, next);
+
     const date_departure = req.body.date_departure;
     const date_arrival = req.body.date_arrival;
     const select_employees = req.body.select_employees_rp;

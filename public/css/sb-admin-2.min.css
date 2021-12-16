@@ -20,18 +20,13 @@
 	width:100%;
 }
 
-.sumExamination{
+.sumDecision{
 	display:inline-block;
 	width:31%;
 	float:left;
 }
 
-.sumGlasses{
-	display:inline-block;
-	width:31%;
-}
-
-.sumLenses{
+.sumReport{
 	display:inline-block;
 	width:31%;
 }
