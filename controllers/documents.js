@@ -10,8 +10,6 @@ var idDecision = null;
 var isAddReport = null;
 var idReport = null;
 
-
-
 exports.getIndex = (req, res, next) => {
     allowed_access(req, res, next);
 
@@ -245,7 +243,7 @@ exports.postAddDecision = (req, res, next) => {
         vehicleId: select_vehicle
     }).then((result) => {
         idDecision = result.id;
-        console.log("Novi ID je: " + result.id)
+       // console.log("Novi ID je: " + result.id)
         isAddDecision = true;
         res.redirect('/decision-preview');
     }).catch(err => {
