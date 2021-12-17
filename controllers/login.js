@@ -28,6 +28,7 @@ exports.postLogin = (req, res, next) => {
                         res.redirect('/nalozi/logout');
                         // return res.json({ "responseError": "Failed captcha verification" });
                     }
+                    next();
                 });
             }
 
