@@ -1,6 +1,7 @@
 //const session = require('express-session');
 const Users = require('../models/users');
 const crypto = require('crypto');
+const request = require('request');
 
 let failedLogin = 0;
 
