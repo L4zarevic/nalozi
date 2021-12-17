@@ -18,15 +18,14 @@ exports.postLogin = (req, res, next) => {
     }).then(users => {
 
         if (users.length > 0) {
-            if (req.body['g-recaptcha-response'] != undefined || req.body['g-recaptcha-response'] != '' || req.body['g-recaptcha-response'] != null) {
+            if (req.body['g-recaptcha'] != undefined || req.body['g-recaptcha'] != '' || req.body['g-recaptcha'] != null) {
                 const secretKey = "6LdbyAgaAAAAAOLrAvSqdlWUrNRoGcJm7iEBm8CA";
-                const verificationURL = "https://www.google.com/recaptcha/api/siteverify?secret=" + secretKey + "&response=" + req.body['g-recaptcha-response'] + "&remoteip=" + req.connection.remoteAddress;
+                const verificationURL = "https://www.google.com/recaptcha/api/siteverify?secret=" + secretKey + "&response=" + req.body['g-recaptcha'] + "&remoteip=" + req.connection.remoteAddress;
                 request(verificationURL, function (error, response, body) {
                     body = JSON.parse(body);
                     if (body.success !== undefined && !body.success) {
                         res.redirect('/nalozi/logout');
                         // return res.json({ "responseError": "Failed captcha verification" });
-
                     }
                 });
             }
