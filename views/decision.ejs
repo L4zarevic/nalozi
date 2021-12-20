@@ -15,11 +15,11 @@
                                     <div class="decision-body__top">
                                         <div>
                                             <label>Int.br.: </label>
-                                            <input type="text" name="int_num" id="int_num" class="form-control">
+                                            <input type="text" name="int_num" id="int_num" class="form-control" title="Unesite interni broj odluke">
                                         </div>
                                         <div class="date-element">
                                             <label id="date-label-element">Dana, </label>
-                                            <input id="date1" name="date1" maxlength='10' placeholder="dd.mm.yyyy"
+                                            <input id="date1" name="date1" maxlength='10' placeholder="dd.mm.yyyy " title="Unesite datum odluke"
                                                 class="form-control">
                                             <script>
                                                 $('#date1').datepicker({
@@ -37,7 +37,7 @@
                                             <div class="decision-top">
                                                 <div class="decision_text_left">
                                                     <label>Zaposleni, </label>
-                                                    <select id="select_employees" name="select_employees"
+                                                    <select id="select_employees" name="select_employees" title="Izaberite zaposlenog"
                                                         class="form-control">
                                                         <% if (emp.length> 0) { %>
                                                             <option default value="0"></option>
@@ -51,7 +51,7 @@
                                                                         <% } %>
                                                     </select>
                                                     <input type="text" id="job_title" name="job_title"
-                                                        class="form-control">
+                                                        class="form-control" title="Unesite zanimanje zaposlenog">
                                                     <label>upućuje se dana
                                                     </label>
                                                 </div>
@@ -66,9 +66,9 @@
                                                     </script>
                                                 </div>
                                                 <div class="decision_text_right">
-                                                    <label id="relations_label">, na službeni
+                                                    <label id="relations_label">,na službeni
                                                         put na relaciji: </label><input type="text" name="relations"
-                                                        id="relations" class="form-control">
+                                                        id="relations" class="form-control" title="Unesite relaciju puta">
                                                     </br>
                                                     </br>
                                                 </div>
@@ -77,14 +77,14 @@
                                                 <label>Razlog upućivanja na službeni put:</label>
                                             </div>
                                             <div>
-                                                <textarea name="reasons" id="reasons" class="form-control"
+                                                <textarea name="reasons" id="reasons" class="form-control" title="Unesite razlog putovanja zaposlenog"
                                                     row="5"></textarea>
                                             </div>
                                             <br>
 
                                             <div>
                                                 <label>Zaposleni će koristiti vozilo: </label>
-                                                <select id="select_vehicle" name="select_vehicle" class="form-control">
+                                                <select id="select_vehicle" name="select_vehicle" class="form-control" title="Izaberite vozilo">
                                                     <% if (veh.length> 0) { %>
                                                         <option default value="0"></option>
                                                         <% for (let vehicle of veh) { %>

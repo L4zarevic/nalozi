@@ -37,9 +37,7 @@
 	width:100%;
 }
 .decision-top{
-  display: flex;                  /* establish flex container */
-  flex-direction: row;            /* default value; can be omitted */
-  flex-wrap: nowrap;              /* default value; can be omitted */
+  display: block;
   width:100%;
 }
 .decision_title{
@@ -61,20 +59,22 @@
 }
 
 .decision_text_left{
-	float:left;
-	width:43%;
+	display:inline-block;
+	margin-right: -1%;
+	width:50%;
+	margin-bottom:2%;
 }
 
 #int_num{
 	display:inline !important;
-	width:14%;
+	width:15%;
 	margin:0.8% 0;
 }
 .date-element{
   display: flex;                  /* establish flex container */
   flex-direction: row;            /* default value; can be omitted */
   flex-wrap: nowrap;              /* default value; can be omitted */
-  width:18%;
+  width:20%;
 }
 #date-label-element{
 	display:inline !important;
@@ -85,6 +85,7 @@
 input#date1.form-control{
 	display:inline !important;
 	width:10% !important;
+	margin-left:3%;
 }
 #select_employees{
 	display:inline !important;
@@ -92,28 +93,30 @@ input#date1.form-control{
 }
 #job_title{
 	display:inline !important;
-	width:26%;
-	margin:0.8% 0;
+	width:22%;
+	
 }
 .decision_text_center{
-	display:inline !important;
-	width:14%;
-	margin-right:0.8%;
+	display:inline-block !important;
+	width:15%;
+	
+	
 }
 #date2{
-	margin:0 1%;
+	margin : 0 auto;
 	
 }
 
 .decision_text_right{
     float:right;
-	width:40%;
+	width:35%;
+	
 }
 
 #relations{
-	margin:0 0.8%;
 	display:inline !important;
-	width:57%;
+	width:45%;
+	margin-left: 1%;
 
 }
 #select_vehicle{
@@ -139,20 +142,23 @@ input#date1.form-control{
   height: 150px;
 }
 .date-departure-element{
-  display:flex;
+  display:block;
   width:40%;
 }
 
 #date-departure{
-	max-width: 32%;
+	display:inline !important;
+	max-width:30% !important;
+	
 }
 #date-departure-label{
-    width: 30%;
+	display:inline !important;
+    width: 10%;
 }
 
 .date-arrival-element{
   margin-top:1%;
-  display:flex;
+ 
   width:42%;
 }
 #date-arrival-label{
