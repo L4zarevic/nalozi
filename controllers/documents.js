@@ -182,6 +182,7 @@ exports.getReportPreview = (req, res, next) => {
             isSuccessful: isAddReport,
             path: '/report-preview'
         });
+        isAddReport = null;
     })
         .catch(err => {
             console.log(err);
