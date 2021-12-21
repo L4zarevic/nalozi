@@ -62,7 +62,7 @@ exports.getDecisionHistory = (req, res, next) => {
 
 exports.getReportHistory = (req, res, next) => {
     allowed_access(req, res, next);
-    
+
     let page = req.params.page;
     if (page == undefined) {
         page = 1;

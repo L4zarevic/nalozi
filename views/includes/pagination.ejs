@@ -3,7 +3,7 @@
         <% if (page == 1) { %>
             <li class="disabled"><a>Početna</a></li>
         <% } else { %>
-            <li><a href="<%= path %>/1">Početna</a></li>
+            <li><a href="/nalozi<%= path %>/1">Početna</a></li>
         <% } %>
         <% var i = (Number(page) > 5 ? Number(page) - 4 : 1) %>
         <% if (i !== 1) { %>
@@ -13,7 +13,7 @@
             <% if (i == page) { %>
                 <li class="active"><a><%= i %></a></li>
             <% } else { %>
-                <li><a href="<%= path %>/<%= i %>"><%= i %></a></li>
+                <li><a href="/nalozi<%= path %>/<%= i %>"><%= i %></a></li>
             <% } %>
             <% if (i == Number(page) + 4 && i < pages) { %>
                 <li class="disabled"><a>...</a></li>
@@ -22,7 +22,7 @@
         <% if (page == pages) { %>
             <li class="disabled"><a>Posljednja</a></li>
         <% } else { %>
-            <li><a href="<%= path %>/<%= pages %>">Posljednja</a></li>
+            <li><a href="/nalozi<%= path %>/<%= pages %>">Posljednja</a></li>
         <% } %>
     </ul>
 <% } %>
