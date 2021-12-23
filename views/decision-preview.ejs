@@ -41,7 +41,11 @@
                                             <label>
                                                 <%= dec.employee.name %>
                                             </label>
+                                            <% if (dec.job_title.length>0){ %>
                                             <label>,<%= dec.job_title %>,</label>
+                                            <% } else { %>
+                                            &nbsp;
+                                            <% } %>
                                             <label>upućuje se dana </label>
                                             <label>
                                                 <%= dec.date2.split("-").reverse().join(".") %>.
