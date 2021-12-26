@@ -20,6 +20,8 @@ exports.getDecisionHistory = (req, res, next) => {
         where.vehicleId = req.query.select_vehicle;
         if (query.length != 0) {
             query += "&select_vehicle=" + req.query.select_vehicle;
+        } else {
+            query = "?select_vehicle=" + req.query.select_vehicle;
         }
     }
 
