@@ -12,6 +12,40 @@
                                 <h1 class="h3 mb-4 text-gray-800"></h1>
                                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                                 </div>
+                                <div class="filter">
+                                    <label>Filter: </label>
+                                    <form action="/nalozi/decision-history" method="GET">
+                                        <select id="select_employees" name="select_employees"
+                                            title="Izaberite zaposlenog" class="form-control">
+                                            <% if (emp.length> 0) { %>
+                                                <option value="0">Svi zaposleni</option>
+                                                <% for (let employees of emp) { %>
+                                                    <option value="<%= employees.id %>">
+                                                        <%= employees.name %>
+                                                    </option>
+                                                    <% } %>
+                                                        <% } else { %>
+                                                            <option value="0">Svi zaposleni</option>
+                                                            <% } %>
+                                        </select>
+                                        <select id="select_vehicle" name="select_vehicle" class="form-control"
+                                            title="Izaberite vozilo">
+                                            <% if (veh.length> 0) { %>
+                                                <option value="0">Sva vozila</option>
+                                                <% for (let vehicle of veh) { %>
+                                                    <option value="<%= vehicle.id %>">
+                                                        <%= vehicle.car %>
+                                                    </option>
+                                                    <% } %>
+                                                        <% } else { %>
+                                                            <option value=" 0">Sva vozila
+                                                            </option>
+                                                            <% } %>
+                                        </select>
+                                        <button type="submit" class="btn btn-info">Filtriraj</button>
+                                    </form>
+
+                                </div>
                                 <div class="card shadow mb-4">
                                     <div class="card-header py-3">
                                         <h6 class="m-0 font-weight-bold text-primary">Istorijat odluka <i
@@ -40,25 +74,25 @@
 
                                                                         <tr
                                                                             onclick="window.location='/nalozi/decision-preview/<%= decision.id %>';">
-                                                                        
-                                                                        <td>
-                                                                            <%= rb +=1; %>
-                                                                        </td>
-                                                                        <td>
-                                                                            <%= decision.int_num %>
-                                                                        </td>
-                                                                        <td>
-                                                                            <%= decision.date1 %>
-                                                                        </td>
-                                                                        <td>
-                                                                            <%= decision.employee.name %>
-                                                                        </td>
-                                                                        <td>
-                                                                            <%= decision.vehicle.car %>
-                                                                        </td>
-                                                                        <td>
-                                                                            <%= decision.user.name %>
-                                                                        </td>
+
+                                                                            <td>
+                                                                                <%= rb +=1; %>
+                                                                            </td>
+                                                                            <td>
+                                                                                <%= decision.int_num %>
+                                                                            </td>
+                                                                            <td>
+                                                                                <%= decision.date1 %>
+                                                                            </td>
+                                                                            <td>
+                                                                                <%= decision.employee.name %>
+                                                                            </td>
+                                                                            <td>
+                                                                                <%= decision.vehicle.car %>
+                                                                            </td>
+                                                                            <td>
+                                                                                <%= decision.user.name %>
+                                                                            </td>
                                                                         </tr>
 
                                                                         <% } %>
@@ -76,7 +110,7 @@
                                             </div>
 
                                             <div class="form-group col-md-3">
-                                                <%- include('includes/pagination.ejs', {path: path}) %>
+                                                <%- include('includes/pagination.ejs', {path: path, query: query}) %>
                                             </div>
                                         </div>
 
@@ -92,5 +126,22 @@
                     </div>
                     <%- include('includes/footer.ejs') %>
     </body>
+    <script>
+        $(function () {
+            if (localStorage.getItem('select_employees')) {
+                $("#select_employees option").eq(localStorage.getItem('select_employees')).prop('selected', true);
+            }
+            $("#select_employees").on('change', function () {
+                localStorage.setItem('select_employees', $('option:selected', this).index());
+            });
+
+            if (localStorage.getItem('select_vehicle')) {
+                $("#select_vehicle option").eq(localStorage.getItem('select_vehicle')).prop('selected', true);
+            }
+            $("#select_vehicle").on('change', function () {
+                localStorage.setItem('select_vehicle', $('option:selected', this).index());
+            });
+        });
+    </script>
 
     </html>

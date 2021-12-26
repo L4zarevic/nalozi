@@ -4,9 +4,36 @@ const Vehicle = require('../models/vehicle');
 const Users = require('../models/users');
 const Report = require('../models/report');
 const allowed_access = require('../util/allowed-access');
+const { Op } = require("sequelize");
 
 exports.getDecisionHistory = (req, res, next) => {
     allowed_access(req, res, next);
+
+    //let filter_employee = req.body.select_employee;
+    let query = "";
+    let where = {}
+    if (req.query.select_employees > 0) {
+        where.employeeId = req.query.select_employees;
+        query = "?select_employees=" + req.query.select_employees;
+    }
+    if (req.query.select_vehicle > 0) {
+        where.vehicleId = req.query.select_vehicle;
+        if (query.length != 0) {
+            query += "&select_vehicle=" + req.query.select_vehicle;
+        }
+    }
+
+
+    let employee = Employees.findAll();
+    let vehicle = Vehicle.findAll();
+
+    Promise.all([employee, vehicle]).then(([emp, veh]) => {
+        employee = emp;
+        vehicle = veh;
+    }).catch(err => {
+        console.log(err);
+    });
+
 
     let page = req.params.page;
     if (page == undefined) {
@@ -15,7 +42,7 @@ exports.getDecisionHistory = (req, res, next) => {
 
     let limit = 10;   // number of records per page
     let offset = 0;
-    Decision.findAndCountAll()
+    Decision.findAndCountAll({ where: where })
         .then((data) => {
             //let page = 1;
             //let page = req.params.page;   // page number
@@ -35,6 +62,7 @@ exports.getDecisionHistory = (req, res, next) => {
                     required: true
                 }],
                 attributes: ['id', 'int_num', 'date1', 'employee.name', 'vehicle.car', 'user.name'],
+                where: where,
                 order: [
                     ['id', 'DESC']
                 ],
@@ -48,6 +76,9 @@ exports.getDecisionHistory = (req, res, next) => {
                         dec: decision,
                         page: page,
                         pages: pages,
+                        emp: employee,
+                        veh: vehicle,
+                        query: query,
                         path: '/decision-history'
                     })
                     // res.status(200).json({ 'result': users, 'count': data.count, 'pages': pages });
