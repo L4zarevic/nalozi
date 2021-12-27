@@ -15,8 +15,7 @@
                                 </div>
                                 <div class="filter">
                                     <label>Filter: </label>
-                                    <form id="form" action="/nalozi/decision-history" method="GET"
-                                        enctype="application/x-www-form-urlencoded">
+                                    <form id="form" action="/nalozi/decision-history" method="GET">
                                         <select id="select_employees" name="select_employees"
                                             title="Izaberite zaposlenog" class="form-control">
                                             <% if (emp.length> 0) { %>
@@ -109,8 +108,7 @@
                                                                                 <%= decision.int_num %>
                                                                             </td>
                                                                             <td>
-                                                                                <%= decision.date1.split("-").reverse().join(".")
-                                                                                    %>
+                                                                                <%= decision.date1.split("-").reverse().join(".") %>
                                                                             </td>
                                                                             <td>
                                                                                 <%= decision.employee.name %>

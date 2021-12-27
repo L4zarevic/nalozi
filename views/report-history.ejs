@@ -1,5 +1,6 @@
 <%- include('includes/head.ejs') %>
     <link rel="stylesheet" href="/nalozi/css/pagination.css" />
+    <link rel="stylesheet" href="/nalozi/css/history.css" />
     </head>
 
     <body id="page-top">
@@ -11,6 +12,67 @@
                             <div class="container-fluid">
                                 <h1 class="h3 mb-4 text-gray-800"></h1>
                                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                                </div>
+                                <div class="filter">
+                                    <label>Filter: </label>
+                                    <form id="form" action="/nalozi/report-history" method="GET">
+                                        <select id="select_employees" name="select_employees"
+                                            title="Izaberite zaposlenog" class="form-control">
+                                            <% if (emp.length> 0) { %>
+                                                <option value="0">Svi zaposleni</option>
+                                                <% for (let employees of emp) { %>
+                                                    <option value="<%= employees.id %>">
+                                                        <%= employees.name %>
+                                                    </option>
+                                                    <% } %>
+                                                        <% } else { %>
+                                                            <option value="0">Svi zaposleni</option>
+                                                            <% } %>
+                                        </select>
+                                        <select id="select_vehicle" name="select_vehicle" class="form-control"
+                                            title="Izaberite vozilo">
+                                            <% if (veh.length> 0) { %>
+                                                <option value="0">Sva vozila</option>
+                                                <% for (let vehicle of veh) { %>
+                                                    <option value="<%= vehicle.id %>">
+                                                        <%= vehicle.car %>
+                                                    </option>
+                                                    <% } %>
+                                                        <% } else { %>
+                                                            <option value=" 0">Sva vozila
+                                                            </option>
+                                                            <% } %>
+                                        </select>
+                                        <div class="input-group input-daterange">
+                                            <div class="input-group-addon">od</div>
+                                            <div class="date1">
+                                                <input type="text" id="date-from" name="date_from" maxlength='10'
+                                                    placeholder="dd.mm.yyyy" value="<%= filter_date_f %>"
+                                                    class="form-control">
+                                                <script>
+                                                    $('#date-from').datepicker({
+                                                        format: 'dd.mm.yyyy',
+                                                        uiLibrary: 'bootstrap4'
+                                                    });
+                                                </script>
+                                            </div>
+                                            <div class="input-group-addon">do</div>
+                                            <div class="date2">
+                                                <input type="text" id="date-to" name="date_to" maxlength='10'
+                                                    placeholder="dd.mm.yyyy" value="<%= filter_date_t %>"
+                                                    class="form-control">
+                                                <script>
+                                                    $('#date-to').datepicker({
+                                                        format: 'dd.mm.yyyy',
+                                                        uiLibrary: 'bootstrap4'
+                                                    });
+                                                </script>
+                                            </div>
+
+                                        </div>
+                                        <button id="filter-button" type="submit" onclick="return filter();"
+                                            class="btn btn-info">Filtriraj</button>
+                                    </form>
                                 </div>
                                 <div class="card shadow mb-4">
                                     <div class="card-header py-3">
@@ -40,25 +102,27 @@
 
                                                                         <tr
                                                                             onclick="window.location='/nalozi/report-preview/<%= report.id %>';">
-                                                                        
-                                                                        <td>
-                                                                            <%= rb +=1; %>
-                                                                        </td>
-                                                                        <td>
-                                                                            <%= report.date_departure.split("-").reverse().join(".") %>
-                                                                        </td>
-                                                                        <td>
-                                                                            <%= report.date_arrival.split("-").reverse().join(".") %>
-                                                                        </td>
-                                                                        <td>
-                                                                            <%= report.employee.name %>
-                                                                        </td>
-                                                                        <td>
-                                                                            <%= report.vehicle.car %>
-                                                                        </td>
-                                                                        <td>
-                                                                            <%= report.user.name %>
-                                                                        </td>
+
+                                                                            <td>
+                                                                                <%= rb +=1; %>
+                                                                            </td>
+                                                                            <td>
+                                                                                <%= report.date_departure.split("-").reverse().join(".")
+                                                                                    %>
+                                                                            </td>
+                                                                            <td>
+                                                                                <%= report.date_arrival.split("-").reverse().join(".")
+                                                                                    %>
+                                                                            </td>
+                                                                            <td>
+                                                                                <%= report.employee.name %>
+                                                                            </td>
+                                                                            <td>
+                                                                                <%= report.vehicle.car %>
+                                                                            </td>
+                                                                            <td>
+                                                                                <%= report.user.name %>
+                                                                            </td>
                                                                         </tr>
 
                                                                         <% } %>
@@ -73,7 +137,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-3">
-                                                <%- include('includes/pagination.ejs', {path: path}) %>
+                                                <%- include('includes/pagination.ejs', {path: path, query: query}) %>
                                             </div>
                                         </div>
                                     </div>
@@ -84,5 +148,29 @@
                     </div>
                     <%- include('includes/footer.ejs') %>
     </body>
+    <script>
+        document.getElementById("select_employees").value = "<%= filter_emp %>";
+        document.getElementById("select_vehicle").value = "<%= filter_veh %>";
+
+        function filter() {
+            const date_from = document.getElementById("date-from").value;
+            const date_to = document.getElementById("date-to").value;
+
+            if ((date_from.length == 0) && (date_to.length > 0)) {
+                document.getElementById("date-from").focus();
+                alertify.alert('Informacija', "Niste unijeli početak perioda");
+                return false;
+            }
+
+            if ((date_to.length == 0) && (date_from.length > 0)) {
+                document.getElementById("date-to").focus();
+                alertify.alert('Informacija', "Niste unijeli kraj perioda");
+                return false;
+            }
+
+            return true;
+
+        }
+    </script>
 
     </html>
