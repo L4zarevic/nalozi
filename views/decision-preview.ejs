@@ -43,14 +43,12 @@
                                             </label>
                                             <% if (dec.job_title.length>0){ %>
                                             <label>,<%= dec.job_title %>,</label>
-                                            <% } else { %>
-                                            &nbsp;
                                             <% } %>
                                             <label>upućuje se dana </label>
                                             <label>
                                                 <%= dec.date2.split("-").reverse().join(".") %>.
                                             </label>
-                                            <label>, na službeni put na relaciji:</label>
+                                            <label>,na službeni put na relaciji:</label>
                                             <label>
                                                 <%= dec.relations %>
                                             </label>

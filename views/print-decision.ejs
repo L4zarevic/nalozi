@@ -45,30 +45,32 @@
                     <label>
                         <%= dec.employee.name %>
                     </label>
-                    <label>,<%= dec.job_title %>,</label>
-                    <label>upućuje se dana </label>
-                    <label>
-                        <%= dec.date2.split("-").reverse().join(".") %>.
-                    </label>
-                    <label>, na službeni put na relaciji:</label>
-                    <label>
-                        <%= dec.relations %>
-                    </label>
-                    </br>
-                    </br>
-                    <div>
-                        <label>Razlog upućivanja na službeni put:</label>
-                        </br>
-                        <p>
-                            <%- dec.reasons.replace(/(\r\n|\n\r|\r|\n)/g, '<br>' ) %>
-                        </p>
-                    </div>
-                    <br>
+                    <% if (dec.job_title.length>0){ %>
+                        <label>,<%= dec.job_title %>,</label>
+                        <% } %>
+                            <label>upućuje se dana </label>
+                            <label>
+                                <%= dec.date2.split("-").reverse().join(".") %>.
+                            </label>
+                            <label>, na službeni put na relaciji:</label>
+                            <label>
+                                <%= dec.relations %>
+                            </label>
+                            </br>
+                            </br>
+                            <div>
+                                <label>Razlog upućivanja na službeni put:</label>
+                                </br>
+                                <p>
+                                    <%- dec.reasons.replace(/(\r\n|\n\r|\r|\n)/g, '<br>' ) %>
+                                </p>
+                            </div>
+                            <br>
 
-                    <div>
-                        <label>Zaposleni će koristiti vozilo: </label>
-                        <label>
-                            <%= dec.vehicle.car +" "+dec.vehicle.registration %></label>
+                            <div>
+                                <label>Zaposleni će koristiti vozilo: </label>
+                                <label>
+                                    <%= dec.vehicle.car +" "+dec.vehicle.registration %></label>
 
                                     </div>
                                     <div>
@@ -77,13 +79,13 @@
                                     </br>
                     </div>
                     <div class=" decision-signature">
-                                <label>DIREKTOR:</label>
-                                <label>
-                                    <hr>
-                                </label>
-                                <label>Stanković Mihailo</label>
+                                        <label>DIREKTOR:</label>
+                                        <label>
+                                            <hr>
+                                        </label>
+                                        <label>Stanković Mihailo</label>
 
-                    </div>
+                            </div>
                 </div>
         </form>
 
