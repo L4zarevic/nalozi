@@ -48,7 +48,7 @@
                                             <div class="input-group-addon">od</div>
                                             <div class="date1">
                                                 <input type="text" id="date-from" name="date_from" maxlength='10'
-                                                    placeholder="dd.mm.yyyy" class="form-control">
+                                                    placeholder="dd.mm.yyyy" value="<%= filter_date_f %>" class="form-control">
                                                 <script>
                                                     $('#date-from').datepicker({
                                                         format: 'dd.mm.yyyy',
@@ -59,7 +59,7 @@
                                             <div class="input-group-addon">do</div>
                                             <div class="date2">
                                                 <input type="text" id="date-to" name="date_to" maxlength='10'
-                                                    placeholder="dd.mm.yyyy" class="form-control">
+                                                    placeholder="dd.mm.yyyy" value="<%= filter_date_t %>" class="form-control">
                                                 <script>
                                                     $('#date-to').datepicker({
                                                         format: 'dd.mm.yyyy',
@@ -153,8 +153,6 @@
     <script>
         document.getElementById("select_employees").value = "<%= filter_emp %>";
         document.getElementById("select_vehicle").value = "<%= filter_veh %>";
-        document.getElementById("date-from").value = "<%= filter_date_f %>";
-        document.getElementById("date-to").value = "<%= filter_date_t %>";
 
         function filter() {
             const date_from = document.getElementById("date-from").value;

@@ -19,25 +19,21 @@ tr:hover{
 	display:inline-flex;
 	width:30%;
 	margin-top:-4%;
-	z-index:1;
 }
 
 .date1{
 	margin:-1.5% 2%;
 	display:inline !important;
 	width:40% !important;
-	z-index:1;
 }
 
 .date2{
 	margin:-1.5% 0 0 2%;
 	display:inline !important;
 	width:40% !important;
-	z-index:1;
 }
 
 #filter-button{
-	margin-top:-0.4%;
-	z-index:99;
+	margin-top:-0.3%;
 }
 
