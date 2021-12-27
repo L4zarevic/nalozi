@@ -38,9 +38,6 @@ exports.getDecisionHistory = (req, res, next) => {
             let date_from = req.query.date_from;
             let date_to = req.query.date_to;
 
-            console.log("ispis date from je> " + date_from);
-            console.log("ispis date to je> " + date_to);
-
             let startDate = new Date(date_from.split(".").reverse().join("-"));
             let endDate = new Date(date_to.split(".").reverse().join("-"));
 
