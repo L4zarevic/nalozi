@@ -1,0 +1,39 @@
+/*History*/
+
+tr:hover{
+  cursor: pointer;
+  background-color: #ccc;
+}
+
+.filter{
+	margin:0 0 2% 0;
+	width:100%;
+}
+
+#form{
+	display:inline !important;
+	width:100%;
+}
+
+.input-group.input-daterange{
+	display:inline-flex;
+	width: 40%;
+	margin-top:-4%;
+	margin-right:-4%;
+}
+
+.date1{
+	margin:-1.5% 2%;
+	display:inline !important;
+	width:35% !important;
+}
+
+.date2{
+	margin:-1.5% 0 0 2%;
+	display:inline !important;
+	width:35% !important;
+}
+
+#filter-button{
+	margin-top:-0.4%;
+}

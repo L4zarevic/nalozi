@@ -1,5 +1,6 @@
 <%- include('includes/head.ejs') %>
     <link rel="stylesheet" href="/nalozi/css/pagination.css" />
+    <link rel="stylesheet" href="/nalozi/css/history.css" />
     </head>
 
     <body id="page-top">
@@ -14,7 +15,8 @@
                                 </div>
                                 <div class="filter">
                                     <label>Filter: </label>
-                                    <form action="/nalozi/decision-history" method="GET">
+                                    <form id="form" action="/nalozi/decision-history" method="GET"
+                                        enctype="application/x-www-form-urlencoded">
                                         <select id="select_employees" name="select_employees"
                                             title="Izaberite zaposlenog" class="form-control">
                                             <% if (emp.length> 0) { %>
@@ -42,10 +44,36 @@
                                                             </option>
                                                             <% } %>
                                         </select>
-                                        <button type="submit" class="btn btn-info">Filtriraj</button>
-                                    </form>
+                                        <div class="input-group input-daterange">
+                                            <div class="input-group-addon">od</div>
+                                            <div class="date1">
+                                                <input type="text" id="date-from" name="date_from" maxlength='10'
+                                                    placeholder="dd.mm.yyyy" class="form-control">
+                                                <script>
+                                                    $('#date-from').datepicker({
+                                                        format: 'dd.mm.yyyy',
+                                                        uiLibrary: 'bootstrap4'
+                                                    });
+                                                </script>
+                                            </div>
+                                            <div class="input-group-addon">do</div>
+                                            <div class="date2">
+                                                <input type="text" id="date-to" name="date_to" maxlength='10'
+                                                    placeholder="dd.mm.yyyy" class="form-control">
+                                                <script>
+                                                    $('#date-to').datepicker({
+                                                        format: 'dd.mm.yyyy',
+                                                        uiLibrary: 'bootstrap4'
+                                                    });
+                                                </script>
+                                            </div>
 
+                                        </div>
+                                        <button id="filter-button" type="submit" onclick="return filter();"
+                                            class="btn btn-info">Filtriraj</button>
+                                    </form>
                                 </div>
+
                                 <div class="card shadow mb-4">
                                     <div class="card-header py-3">
                                         <h6 class="m-0 font-weight-bold text-primary">Istorijat odluka <i
@@ -82,7 +110,8 @@
                                                                                 <%= decision.int_num %>
                                                                             </td>
                                                                             <td>
-                                                                                <%= decision.date1 %>
+                                                                                <%= decision.date1.split("-").reverse().join(".")
+                                                                                    %>
                                                                             </td>
                                                                             <td>
                                                                                 <%= decision.employee.name %>
@@ -96,8 +125,6 @@
                                                                         </tr>
 
                                                                         <% } %>
-
-
                                                 </tbody>
                                             </table>
                                         </div>
@@ -117,8 +144,6 @@
                                     </div>
                                 </div>
 
-
-
                                 </br>
                                 </br>
 
@@ -127,21 +152,30 @@
                     <%- include('includes/footer.ejs') %>
     </body>
     <script>
-        $(function () {
-            if (localStorage.getItem('select_employees')) {
-                $("#select_employees option").eq(localStorage.getItem('select_employees')).prop('selected', true);
-            }
-            $("#select_employees").on('change', function () {
-                localStorage.setItem('select_employees', $('option:selected', this).index());
-            });
+        document.getElementById("select_employees").value = "<%= filter_emp %>";
+        document.getElementById("select_vehicle").value = "<%= filter_veh %>";
+        document.getElementById("date-from").value = "<%= filter_date_f %>";
+        document.getElementById("date-to").value = "<%= filter_date_t %>";
 
-            if (localStorage.getItem('select_vehicle')) {
-                $("#select_vehicle option").eq(localStorage.getItem('select_vehicle')).prop('selected', true);
+        function filter() {
+            const date_from = document.getElementById("date-from").value;
+            const date_to = document.getElementById("date-to").value;
+
+            if ((date_from.length == 0) && (date_to.length > 0)) {
+                document.getElementById("date-from").focus();
+                alertify.alert('Informacija', "Niste unijeli početak perioda");
+                return false;
             }
-            $("#select_vehicle").on('change', function () {
-                localStorage.setItem('select_vehicle', $('option:selected', this).index());
-            });
-        });
+
+            if ((date_to.length == 0) && (date_from.length > 0)) {
+                document.getElementById("date-to").focus();
+                alertify.alert('Informacija', "Niste unijeli kraj perioda");
+                return false;
+            }
+
+            return true;
+
+        }
     </script>
 
     </html>

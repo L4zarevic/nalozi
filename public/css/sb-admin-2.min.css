@@ -204,13 +204,3 @@ input#date1.form-control{
 	margin: 0 0 2% 0;
 }
 
-/*History*/
-
-tr:hover{
-  cursor: pointer;
-  background-color: #ccc;
-}
-
-.filter{
-	margin:0 0 2% 0;
-}

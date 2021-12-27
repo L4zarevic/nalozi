@@ -9,12 +9,17 @@ const { Op } = require("sequelize");
 exports.getDecisionHistory = (req, res, next) => {
     allowed_access(req, res, next);
 
-    //let filter_employee = req.body.select_employee;
     let query = "";
     let where = {}
+    let filter_employees = 0;
+    let filter_vehicle = 0;
+    let filter_date_from = "";
+    let filter_date_to = "";
+
     if (req.query.select_employees > 0) {
         where.employeeId = req.query.select_employees;
         query = "?select_employees=" + req.query.select_employees;
+        filter_employees = req.query.select_employees;
     }
     if (req.query.select_vehicle > 0) {
         where.vehicleId = req.query.select_vehicle;
@@ -22,6 +27,31 @@ exports.getDecisionHistory = (req, res, next) => {
             query += "&select_vehicle=" + req.query.select_vehicle;
         } else {
             query = "?select_vehicle=" + req.query.select_vehicle;
+        }
+        filter_vehicle = req.query.select_vehicle;
+    }
+
+    if (req.query.date_from !== undefined && req.query.date_to !== undefined) {
+
+        if (req.query.date_from !== "" && req.query.date_to !== "") {
+
+            let date_from = req.query.date_from;
+            let date_to = req.query.date_to;
+
+            console.log("ispis date from je> " + date_from);
+            console.log("ispis date to je> " + date_to);
+
+            let startDate = new Date(date_from.split(".").reverse().join("-"));
+            let endDate = new Date(date_to.split(".").reverse().join("-"));
+
+            where.date1 = { [Op.between]: [startDate, endDate] };
+            if (query.length != 0) {
+                query += "&date_from=" + date_from + "&date_to=" + date_to;
+            } else {
+                query = "?date_from=" + date_from + "&date_to=" + date_to;
+            }
+            filter_date_from = req.query.date_from;
+            filter_date_to = req.query.date_to;
         }
     }
 
@@ -81,6 +111,10 @@ exports.getDecisionHistory = (req, res, next) => {
                         emp: employee,
                         veh: vehicle,
                         query: query,
+                        filter_emp: filter_employees,
+                        filter_veh: filter_vehicle,
+                        filter_date_f: filter_date_from,
+                        filter_date_t: filter_date_to,
                         path: '/decision-history'
                     })
                     // res.status(200).json({ 'result': users, 'count': data.count, 'pages': pages });
