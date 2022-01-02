@@ -4,11 +4,14 @@ const Decision = require('../models/decision');
 const Report = require('../models/report');
 const allowed_access = require('../util/allowed-access');
 const { Op } = require('sequelize');
+const e = require('express');
 
 var isAddDecision = null;
 var idDecision = null;
 var isAddReport = null;
 var idReport = null;
+var isUpdated = null;
+var isEditable = null;
 
 exports.getIndex = (req, res, next) => {
     allowed_access(req, res, next);
@@ -59,19 +62,62 @@ exports.getDecision = (req, res, next) => {
     const emp = Employees.findAll();
     const veh = Vehicle.findAll();
 
-    Promise.all([emp, veh]).then(([employees, vehicle]) => {
-        res.render('decision', {
-            user: req.session.name,
-            emp: employees,
-            veh: vehicle,
-            isSuccessful: isAddDecision,
-            path: '/decision'
+    if (req.params.decId != undefined) {
+        idDecision = req.params.decId;
+
+        Decision.findOne({
+            where: {
+                id: idDecision,
+                userId: req.session.userid
+            },
+            attributes: ['int_num', 'date1', 'job_title', 'date2', 'relations', 'reasons', 'employeeId', 'vehicleId']
+
+        }).then((decision) => {
+            Promise.all([emp, veh]).then(([employees, vehicle]) => {
+                res.render('decision', {
+                    user: req.session.name,
+                    emp: employees,
+                    veh: vehicle,
+                    id_decision: idDecision,
+                    dec: decision,
+                    date1: decision.date1.split('-').reverse().join('.'),
+                    date2: decision.date2.split('-').reverse().join('.'),
+                    isSuccessful: isAddDecision,
+                    isUpdated: isUpdated,
+                    path: '/decision'
+                })
+            })
+                .catch(err => {
+                    console.log(err);
+                    res.redirect('/nalozi/decision');
+                }
+                );
+
         })
-    })
-        .catch(err => {
-            console.log(err);
-        }
-        );
+            .catch(err => {
+                console.log(err);
+                res.redirect('/nalozi/decision');
+            });
+    } else {
+        Promise.all([emp, veh]).then(([employees, vehicle]) => {
+            res.render('decision', {
+                user: req.session.name,
+                emp: employees,
+                veh: vehicle,
+                id_decision: '',
+                dec: '',
+                date1: '',
+                date2: '',
+                isSuccessful: isAddDecision,
+                isUpdated: isUpdated,
+                path: '/decision'
+            })
+        })
+            .catch(err => {
+                console.log(err);
+            }
+            );
+    }
 };
 
 
@@ -92,16 +138,27 @@ exports.getDecisionPreview = (req, res, next) => {
             model: Vehicle,
             required: true
         }],
-        attributes: ['int_num', 'date1', 'employee.name', 'job_title', 'date2', 'relations', 'reasons', 'vehicle.car', 'vehicle.registration']
+        attributes: ['int_num', 'date1', 'employee.name', 'job_title', 'date2', 'relations', 'reasons', 'vehicle.car', 'vehicle.registration', 'userId']
 
     }).then((decision) => {
+
+        if (decision.userId == req.session.userid) {
+            isEditable = true;
+        } else {
+            isEditable = false;
+        }
+
         res.render('decision-preview', {
             user: req.session.name,
             dec: decision,
+            id_decision: idDecision,
             isSuccessful: isAddDecision,
+            isEditable: isEditable,
+            isUpdated: isUpdated,
             path: '/decision-preview'
         });
         isAddDecision = null;
+        isUpdated = null;
     })
         .catch(err => {
             console.log(err);
@@ -220,6 +277,7 @@ exports.getPrintReport = (req, res, next) => {
 exports.postAddDecision = (req, res, next) => {
     allowed_access(req, res, next);
 
+    const id_decision = req.body.id_decision;
     const int_num = req.body.int_num;
     const date1 = req.body.date1;
     const select_employees = req.body.select_employees;
@@ -232,26 +290,58 @@ exports.postAddDecision = (req, res, next) => {
     var newdate1 = date1.split(".").reverse().join("-");
     var newdate2 = date2.split(".").reverse().join("-");
 
-    Decision.create({
-        userId: req.session.userid,
-        int_num: int_num,
-        date1: newdate1,
-        employeeId: select_employees,
-        date2: newdate2,
-        job_title: job_title,
-        relations: relations,
-        reasons: reasons,
-        vehicleId: select_vehicle
-    }).then((result) => {
-        idDecision = result.id;
-        // console.log("Novi ID je: " + result.id)
-        isAddDecision = true;
-        res.redirect('/nalozi/decision-preview');
-    }).catch(err => {
-        isAddDecision = false;
-        res.redirect('/nalozi/decision');
-        console.log(err);
-    });
+    if (id_decision.length == 0) {
+        Decision.create({
+            userId: req.session.userid,
+            int_num: int_num,
+            date1: newdate1,
+            employeeId: select_employees,
+            date2: newdate2,
+            job_title: job_title,
+            relations: relations,
+            reasons: reasons,
+            vehicleId: select_vehicle
+        }).then((result) => {
+            idDecision = result.id;
+            isAddDecision = true;
+            res.redirect('/nalozi/decision-preview');
+        }).catch(err => {
+            isAddDecision = false;
+            res.redirect('/nalozi/decision');
+            console.log(err);
+        });
+    } else {
+        Decision.findOne({
+            where: {
+                id: id_decision,
+                userId: req.session.userid
+            },
+        })
+            .then(decision => {
+                decision.userId = req.session.userid;
+                decision.int_num = int_num;
+                decision.date1 = newdate1;
+                decision.employeeId = select_employees;
+                decision.date2 = newdate2;
+                decision.job_title = job_title;
+                decision.relations = relations;
+                decision.reasons = reasons;
+                decision.vehicleId = select_vehicle;
+                return decision.save();
+            })
+            .then(result => {
+                isAllowedEdit = true;
+                isUpdated = true;
+                res.redirect('/nalozi/decision-preview');
+            })
+            .catch(err => {
+                console.log(err);
+                isAllowedEdit = false;
+                isUpdated = false;
+                res.redirect('/nalozi/decision');
+            });
+
+    }
 }
 
 exports.postAddReport = (req, res, next) => {
@@ -275,7 +365,6 @@ exports.postAddReport = (req, res, next) => {
         vehicleId: select_vehicle
     }).then((result) => {
         idReport = result.id;
-        //console.log("Novi ID je: " + result.id)
         isAddReport = true;
         res.redirect('/nalozi/report-preview');
     }).catch(err => {

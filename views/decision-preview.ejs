@@ -42,34 +42,34 @@
                                                 <%= dec.employee.name %>
                                             </label>
                                             <% if (dec.job_title.length>0){ %>
-                                            <label>,<%= dec.job_title %>,</label>
-                                            <% } %>
-                                            <label>upućuje se dana </label>
-                                            <label>
-                                                <%= dec.date2.split("-").reverse().join(".") %>.
-                                            </label>
-                                            <label>,na službeni put na relaciji:</label>
-                                            <label>
-                                                <%= dec.relations %>
-                                            </label>
-                                            </br>
-                                            </br>
-                                            <div>
-                                                <label>Razlog upućivanja na službeni put:</label>
-                                                </br>
-                                                <p>
-                                                    <%- dec.reasons.replace(/(\r\n|\n\r|\r|\n)/g, '<br>' ) %>
-                                                </p>
-                                            </div>
-                                            <div>
+                                                <label>,<%= dec.job_title %>,</label>
+                                                <% } %>
+                                                    <label>upućuje se dana </label>
+                                                    <label>
+                                                        <%= dec.date2.split("-").reverse().join(".") %>.
+                                                    </label>
+                                                    <label>,na službeni put na relaciji:</label>
+                                                    <label>
+                                                        <%= dec.relations %>
+                                                    </label>
+                                                    </br>
+                                                    </br>
+                                                    <div>
+                                                        <label>Razlog upućivanja na službeni put:</label>
+                                                        </br>
+                                                        <p>
+                                                            <%- dec.reasons.replace(/(\r\n|\n\r|\r|\n)/g, '<br>' ) %>
+                                                        </p>
+                                                    </div>
+                                                    <div>
 
-                                            </div>
-                                            <br>
+                                                    </div>
+                                                    <br>
 
-                                            <div>
-                                                <label>Zaposleni će koristiti vozilo: </label>
-                                                <label>
-                                                    <%= dec.vehicle.car +" "+dec.vehicle.registration %></label>
+                                                    <div>
+                                                        <label>Zaposleni će koristiti vozilo: </label>
+                                                        <label>
+                                                            <%= dec.vehicle.car +" "+dec.vehicle.registration %></label>
                                                     
                                                     </div>
                                                     <div>
@@ -78,9 +78,23 @@
                                                     </br>
                                                     <div>
                                                         <a href=" /nalozi/print-decision" type="button" target=”_blank”
-                                                        class='btn btn-primary'>
-                                                        <i class='fa fa-print'></i>&nbsp;Štampaj</a>
-                                            </div>
+                                                                class='btn btn-primary'>
+                                                                <i class='fas fa-print'></i>&nbsp;Štampaj</a>
+
+                                                                <% if(isEditable==true){ %>
+                                                                    <a href='/nalozi/decision/<%= id_decision %>'
+                                                                        type="button" class='btn btn-success'>
+                                                                        <i class='fas fa-edit'></i>&nbsp;Uredi
+                                                                        odluku</a>
+                                                                    <% }else { %>
+                                                                        <button type="button"
+                                                                            title="Nemate ovlaštenje da uredite ovaj dokument!"
+                                                                            id="edit-button-disabled"
+                                                                            class='btn btn-secondary'>
+                                                                            <i class='fas fa-edit'></i>&nbsp;Uredi
+                                                                            odluku</a>
+                                                                            <% } %>
+                                                    </div>
                                         </div>
                                     </div>
                                 </form>
@@ -88,10 +102,12 @@
                                 </br>
                                 </br>
 
-                                <% if (isSuccessful===true) { %>
-                                    <script src="/nalozi/js/alertify.min.js"></script>
+                                <script src="/nalozi/js/alertify.min.js"></script>
+                                <% if (isSuccessful === true) { %>
                                     <script type="text/javascript">alertify.success('Odluka je kreirana');</script>
-                                    <% } %>
+                                    <% } if(isUpdated === true) { %>
+                                        <script type="text/javascript">alertify.success('Odluka je uređena');</script>
+                                        <% } %>
                             </div>
                     </div>
                     <%- include('includes/footer.ejs') %>

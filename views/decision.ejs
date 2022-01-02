@@ -13,14 +13,18 @@
 
                                 <form id="decision_form" action="/nalozi/add-decision" method="POST">
                                     <div class="decision-body__top">
+                                        <div><input type="text" name="id_decision" id="id-decision"
+                                                value="<%= id_decision %>" hidden>
+                                        </div>
                                         <div>
                                             <label>Int.br.: </label>
-                                            <input type="text" name="int_num" id="int_num" class="form-control" title="Unesite interni broj odluke">
+                                            <input type="text" name="int_num" id="int_num" class="form-control"
+                                                title="Unesite interni broj odluke" value="<%= dec.int_num %>">
                                         </div>
                                         <div class="date-element">
                                             <label id="date-label-element">Dana, </label>
-                                            <input id="date1" name="date1" maxlength='10' placeholder="dd.mm.yyyy " title="Unesite datum odluke"
-                                                class="form-control">
+                                            <input id="date1" name="date1" maxlength='10' placeholder="dd.mm.yyyy"
+                                                title="Unesite datum odluke" class="form-control" value="<%= date1 %>">
                                             <script>
                                                 $('#date1').datepicker({
                                                     format: 'dd.mm.yyyy',
@@ -37,8 +41,8 @@
                                             <div class="decision-top">
                                                 <div class="decision_text_left">
                                                     <label>Zaposleni, </label>
-                                                    <select id="select_employees" name="select_employees" title="Izaberite zaposlenog"
-                                                        class="form-control">
+                                                    <select id="select_employees" name="select_employees"
+                                                        title="Izaberite zaposlenog" class="form-control">
                                                         <% if (emp.length> 0) { %>
                                                             <option default value="0"></option>
                                                             <% for (let employees of emp) { %>
@@ -51,13 +55,15 @@
                                                                         <% } %>
                                                     </select>
                                                     <input type="text" id="job_title" name="job_title"
-                                                        class="form-control" title="Unesite zanimanje zaposlenog">
+                                                        class="form-control" title="Unesite zanimanje zaposlenog"
+                                                        value="<%= dec.job_title %>">
                                                     <label>upućuje se dana
                                                     </label>
                                                 </div>
                                                 <div class="decision_text_center">
                                                     <input id="date2" name="date2" maxlength='10'
-                                                        placeholder="dd.mm.yyyy" class="form-control">
+                                                        placeholder="dd.mm.yyyy" class="form-control"
+                                                        value="<%= date2 %>">
                                                     <script>
                                                         $('#date2').datepicker({
                                                             format: 'dd.mm.yyyy',
@@ -68,7 +74,8 @@
                                                 <div class="decision_text_right">
                                                     <label id="relations_label">,na službeni
                                                         put na relaciji: </label><input type="text" name="relations"
-                                                        id="relations" class="form-control" title="Unesite relaciju puta">
+                                                        id="relations" class="form-control"
+                                                        title="Unesite relaciju puta" value="<%= dec.relations %>">
                                                     </br>
                                                     </br>
                                                 </div>
@@ -77,14 +84,16 @@
                                                 <label>Razlog upućivanja na službeni put:</label>
                                             </div>
                                             <div>
-                                                <textarea name="reasons" id="reasons" class="form-control" title="Unesite razlog putovanja zaposlenog"
-                                                    row="5"></textarea>
+                                                <textarea name="reasons" id="reasons" class="form-control"
+                                                    title="Unesite razlog putovanja zaposlenog"
+                                                    row="5"><%= dec.reasons %></textarea>
                                             </div>
                                             <br>
 
                                             <div>
                                                 <label>Zaposleni će koristiti vozilo: </label>
-                                                <select id="select_vehicle" name="select_vehicle" class="form-control" title="Izaberite vozilo">
+                                                <select id="select_vehicle" name="select_vehicle" class="form-control"
+                                                    title="Izaberite vozilo">
                                                     <% if (veh.length> 0) { %>
                                                         <option default value="0"></option>
                                                         <% for (let vehicle of veh) { %>
@@ -103,22 +112,38 @@
                                             </div>
                                             </br>
                                             <div>
-                                                <button type="submit" onclick="return checkFormDecision(event)"
-                                                    class="btn btn-success"><i
+                                                <button type="submit" id="add_edit_button"
+                                                    onclick="return checkFormDecision(event)" class="btn btn-success"><i
                                                         class="fas fa-save"></i>&nbsp;Sačuvaj</button>
+
                                             </div>
                                         </div>
                                     </div>
                                 </form>
                                 </br>
                                 </br>
-                                <% if (isSuccessful===false) { %>
-                                    <script src="js/alertify.min.js"></script>
+                                <script src="/nalozi/js/alertify.min.js"></script>
+                                <% if ((isSuccessful===false)||(isUpdated===false)) { %>
                                     <script type="text/javascript">alertify.error('Greška! Pokušajte ponovo');</script>
                                     <% } %>
                             </div>
                     </div>
                     <%- include('includes/footer.ejs') %>
     </body>
+    <script>
+        document.getElementById('int_num').focus();
+
+        const btn = document.getElementById("add_edit_button");
+        const id_decision = document.getElementById("id-decision").value;
+
+        if (id_decision.length > 0) {
+            btn.innerHTML = '<i class="fas fa-edit"></i>&nbsp;Uredi';
+        }
+
+        document.getElementById("select_employees").value = "<%= dec.employeeId %>";
+        document.getElementById("select_vehicle").value = "<%= dec.vehicleId %>";
+
+
+    </script>
 
     </html>
