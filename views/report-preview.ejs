@@ -57,17 +57,32 @@
                                                 <a href="/nalozi/print-report" type="button" target=”_blank”
                                                     class='btn btn-primary'>
                                                     <i class='fa fa-print'></i>&nbsp;Štampaj</a>
-                                            </div>
 
+                                                    <% if(isEditable==true){ %>
+                                                        <a href='/nalozi/report/<%= id_report %>'
+                                                            type="button" class='btn btn-success'>
+                                                            <i class='fas fa-edit'></i>&nbsp;Uredi
+                                                            odluku</a>
+                                                        <% }else { %>
+                                                            <button type="button"
+                                                                title="Nemate ovlaštenje da uredite ovaj dokument!"
+                                                                id="edit-button-disabled"
+                                                                class='btn btn-secondary'>
+                                                                <i class='fas fa-edit'></i>&nbsp;Uredi
+                                                                odluku</a>
+                                                                <% } %>
+                                            </div>
                                         </div>
                                     </div>
                                 </form>
                                 </br>
                                 </br>
+                                <script src="/nalozi/js/alertify.min.js"></script>
                                 <% if (isSuccessful===true) { %>
-                                    <script src="/nalozi/js/alertify.min.js"></script>
                                     <script type="text/javascript">alertify.success('Izvještaj je kreiran');</script>
-                                    <% } %>
+                                    <% } if(isUpdated===true) { %>
+                                        <script type="text/javascript">alertify.success('Izvještaj je uređen');</script>
+                                        <% } %>
                             </div>
                     </div>
                     <%- include('includes/footer.ejs') %>

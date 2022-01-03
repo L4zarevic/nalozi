@@ -4,7 +4,6 @@ const Decision = require('../models/decision');
 const Report = require('../models/report');
 const allowed_access = require('../util/allowed-access');
 const { Op } = require('sequelize');
-const e = require('express');
 
 var isAddDecision = null;
 var idDecision = null;
@@ -92,7 +91,6 @@ exports.getDecision = (req, res, next) => {
                     res.redirect('/nalozi/decision');
                 }
                 );
-
         })
             .catch(err => {
                 console.log(err);
@@ -118,8 +116,7 @@ exports.getDecision = (req, res, next) => {
             }
             );
     }
-};
-
+}
 
 exports.getDecisionPreview = (req, res, next) => {
     allowed_access(req, res, next);
@@ -198,19 +195,63 @@ exports.getReport = (req, res, next) => {
     const emp = Employees.findAll();
     const veh = Vehicle.findAll();
 
-    Promise.all([emp, veh]).then(([employees, vehicle]) => {
-        res.render('report', {
-            user: req.session.name,
-            emp: employees,
-            veh: vehicle,
-            isSuccessful: isAddReport,
-            path: '/report'
+    if (req.params.repId != undefined) {
+        idReport = req.params.repId;
+
+        Report.findOne({
+            where: {
+                id: idReport,
+                userId: req.session.userid
+            },
+            attributes: ['date_departure', 'date_arrival', 'reasons', 'employeeId', 'vehicleId']
+
+        }).then((report) => {
+            Promise.all([emp, veh]).then(([employees, vehicle]) => {
+                res.render('report', {
+                    user: req.session.name,
+                    id_report: idReport,
+                    date_departure: report.date_departure.split('-').reverse().join('.'),
+                    date_arrival: report.date_arrival.split('-').reverse().join('.'),
+                    emp: employees,
+                    veh: vehicle,
+                    rep: report,
+                    isSuccessful: isAddReport,
+                    isUpdated: isUpdated,
+                    path: '/report'
+                })
+            })
+                .catch(err => {
+                    console.log(err);
+                    res.redirect('/nalozi/report');
+                }
+                );
         })
-    })
-        .catch(err => {
-            console.log(err);
-        }
-        );
+            .catch(err => {
+                console.log(err);
+                res.redirect('/nalozi/report');
+            });
+
+    } else {
+
+        Promise.all([emp, veh]).then(([employees, vehicle]) => {
+            res.render('report', {
+                user: req.session.name,
+                id_report: "",
+                date_departure: "",
+                date_arrival: "",
+                emp: employees,
+                veh: vehicle,
+                rep: "",
+                isSuccessful: isAddReport,
+                isUpdated: isUpdated,
+                path: '/report'
+            })
+        })
+            .catch(err => {
+                console.log(err);
+            }
+            );
+    }
 }
 
 exports.getReportPreview = (req, res, next) => {
@@ -230,16 +271,25 @@ exports.getReportPreview = (req, res, next) => {
             model: Vehicle,
             required: true
         }],
-        attributes: ['date_departure', 'date_arrival', 'employee.name', 'reasons', 'vehicle.car', 'vehicle.registration']
+        attributes: ['date_departure', 'date_arrival', 'employee.name', 'reasons', 'vehicle.car', 'vehicle.registration', 'userId']
 
     }).then((report) => {
+        if (report.userId == req.session.userid) {
+            isEditable = true;
+        } else {
+            isEditable = false;
+        }
         res.render('report-preview', {
             user: req.session.name,
             rep: report,
+            id_report: idReport,
             isSuccessful: isAddReport,
+            isEditable: isEditable,
+            isUpdated: isUpdated,
             path: '/report-preview'
         });
         isAddReport = null;
+        isUpdated = null;
     })
         .catch(err => {
             console.log(err);
@@ -340,13 +390,13 @@ exports.postAddDecision = (req, res, next) => {
                 isUpdated = false;
                 res.redirect('/nalozi/decision');
             });
-
     }
 }
 
 exports.postAddReport = (req, res, next) => {
     allowed_access(req, res, next);
 
+    const id_report = req.body.id_report;
     const date_departure = req.body.date_departure;
     const date_arrival = req.body.date_arrival;
     const select_employees = req.body.select_employees_rp;
@@ -356,21 +406,49 @@ exports.postAddReport = (req, res, next) => {
     var newdate_departure = date_departure.split(".").reverse().join("-");
     var newdate_arrival = date_arrival.split(".").reverse().join("-");
 
-    Report.create({
-        userId: req.session.userid,
-        date_departure: newdate_departure,
-        employeeId: select_employees,
-        date_arrival: newdate_arrival,
-        reasons: reasons,
-        vehicleId: select_vehicle
-    }).then((result) => {
-        idReport = result.id;
-        isAddReport = true;
-        res.redirect('/nalozi/report-preview');
-    }).catch(err => {
-        isAddReport = false;
-        res.redirect('/nalozi/report');
-        console.log(err);
-    });
-
+    if (id_report.length == 0) {
+        Report.create({
+            userId: req.session.userid,
+            date_departure: newdate_departure,
+            employeeId: select_employees,
+            date_arrival: newdate_arrival,
+            reasons: reasons,
+            vehicleId: select_vehicle
+        }).then((result) => {
+            idReport = result.id;
+            isAddReport = true;
+            res.redirect('/nalozi/report-preview');
+        }).catch(err => {
+            isAddReport = false;
+            res.redirect('/nalozi/report');
+            console.log(err);
+        });
+    } else {
+        Report.findOne({
+            where: {
+                id: id_report,
+                userId: req.session.userid
+            },
+        })
+            .then(report => {
+                report.userId = req.session.userid;
+                report.date_departure = newdate_departure;
+                report.date_arrival = newdate_arrival;
+                report.reasons = reasons;
+                report.employeeId = select_employees;
+                report.vehicleId = select_vehicle;
+                return report.save();
+            })
+            .then(result => {
+                isAllowedEdit = true;
+                isUpdated = true;
+                res.redirect('/nalozi/report-preview');
+            })
+            .catch(err => {
+                console.log(err);
+                isAllowedEdit = false;
+                isUpdated = false;
+                res.redirect('/nalozi/report');
+            });
+    }
 }
